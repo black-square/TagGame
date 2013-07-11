@@ -19,9 +19,8 @@ private:
 
 private:
   GameField m_field;
-  PlayerObj m_player;
-
   Texture::TPtr m_pTex;
+  boost::weak_ptr<PlayerObj> m_pPlayer;
 };
 
 #endif // StateTest_h__

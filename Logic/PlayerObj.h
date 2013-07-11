@@ -14,23 +14,25 @@ public:
   typedef GameField::TScreenPos TScreenPos; 
 
 public:
-  PlayerObj( GameField &field, TFieldPos fieldPos, Texture::TPtrParam pTex );
+  PlayerObj( GameField &field, Texture::TPtrParam pTex );
 
 public:
+  Type GetType() const override { return IGameObject::Player; }
   void Update( float deltaTime ) override;
   void Render() const override;
+  void SetPos( TFieldPos pos ) override;
+  void Stop() override;
 
 public:
   void MoveTo( TFieldPos pos );
 
 private:
   GameField &m_field;
-  TFieldPos m_fieldPos;
-  TFieldPos m_fieldDstPos;
+  TFieldPos m_pos;
+  TFieldPos m_dstPos;
   DiscretePath<TFieldPos::TValueType> m_discretePath;
 
   SimpleTimer<float> m_fieldMovementTimer;
-  SimpleTimer<float> m_screenMovementTimer;
   Texture::TPtr m_pTex;
 };
 
