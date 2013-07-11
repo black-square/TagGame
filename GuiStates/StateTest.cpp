@@ -3,6 +3,8 @@
 #include "Graphics/Texture.h"
 #include "Gui/Widgets.h"
 #include "Logic/TrapObj.h"
+#include "Logic/EnemyObj.h"
+#include "LogicConsts.h"
 
 GuiStateTest::GuiStateTest():
   m_pTexGrid( boost::make_shared<Texture>("./_data/grid.png") ),
@@ -20,43 +22,53 @@ GuiStateTest::GuiStateTest():
   const auto pPlayer = boost::make_shared<PlayerObj>( m_field, pTexPlayer );
   m_pPlayer = pPlayer;
   m_field.Set( Point(3,2), pPlayer ); 
-  m_field.Set( Point(7,4), boost::make_shared<TrapObj>( m_field, pTexPlayer ) );  
+  m_field.Set( Point(7,4), boost::make_shared<TrapObj>( m_field, m_pTexMark ) );
+  
+  m_field.Set( Point(10, 10), boost::make_shared<EnemyObj>( m_field, m_pTexMark ) );
+  m_field.Set( Point(20, 10), boost::make_shared<EnemyObj>( m_field, m_pTexMark ) );  
+  
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateTest::OnRender() const
+void GuiStateTest::OnRender( float deltaTime ) const
 {
   ForEach( m_field.GetSize(), [&]( Point cur ) {
     Draw( *m_pTexGrid, round<Point>(m_field.ToScreen(cur)) );
   });
 
-  ForEach( m_field, []( IGameObject::TPtrParam pObj) 
+  ForEach( m_field, [deltaTime]( const IGameObject *pObj ) 
   {
-    pObj->Render();
-  });
-
-  ForEachRadius( Point(10, 10), 5, [&]( Point cur ) 
-  {
-    Draw( *m_pTexMark, round<Point>(m_field.ToScreen(cur)), 0, change_a( Color::make_magenta(), 100) );
+    pObj->Render( deltaTime );
   });
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateTest::OnUpdate( float deltaTime )
+void GuiStateTest::OnUpdate()
 {
-  ForEach( m_field, [deltaTime]( IGameObject::TPtrParam pObj) 
+  ForEach( m_field, []( IGameObject *pObj ) 
   {
-    pObj->Update( deltaTime );
+    pObj->Update();
   }); 
+
+
+  const auto pPlayer = m_pPlayer.lock();
+
+  if( pPlayer )
+  {
+    ForEachRadius( m_field, pPlayer->GetPos(), Editor::EnemyVisibleDistance(), [&pPlayer]( IGameObject::TPtrParam pObj ) 
+    { 
+      pObj->PlayerVisible( pPlayer.get() );    
+    });
+  }
 }
 //////////////////////////////////////////////////////////////////////////
 
 void GuiStateTest::OnLButtonDown( Point pos )
 {
-  const auto pPLayer = m_pPlayer.lock();
+  const auto pPlayer = m_pPlayer.lock();
 
-  if( pPLayer )
-    pPLayer->MoveTo( m_field.FromScreen(GameField::TScreenPos(pos)) );  
+  if( pPlayer )
+    pPlayer->MoveTo( m_field.FromScreen(GameField::TScreenPos(pos)) );  
 }
 
 //////////////////////////////////////////////////////////////////////////

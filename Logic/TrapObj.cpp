@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "TrapObj.h"
 
-void TrapObj::Render() const
+void TrapObj::Render( float deltaTime ) const
 {
-  Draw( *m_pTex, Rect( round<Point>(m_field.ToScreen(m_pos)), Size(15, 15)), 0, Color::make_red() );
+  Draw( *m_pTex, Rect( round<Point>(m_field.ToScreen(m_pos)), Size(15, 15)), 0, Color::make_yellow() );
 }
 //////////////////////////////////////////////////////////////////////////
 

@@ -11,7 +11,8 @@ public:
   explicit TrapObj( const GameField &field, Texture::TPtrParam pTex ): m_field(field), m_pTex(pTex) {}
 
   Type GetType() const override { return Trap; }
-  void Render() const override;
+  TFieldPos GetPos() const override { return m_pos; }
+  void Render( float deltaTime ) const override;
   void Touch( IGameObject *pWho ) override;
   void SetPos( TFieldPos pos ) override { m_pos = pos; }
 

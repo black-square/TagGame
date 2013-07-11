@@ -1,8 +1,17 @@
 #ifndef IGameObject_h__
 #define IGameObject_h__
 
-struct IGameObject
+#include "Core/TinyList.hpp"
+
+struct GameObjectListTag{};
+
+struct IGameObject: boost::enable_shared_from_this<IGameObject>, TinyLink<GameObjectListTag>
 {
+  typedef boost::shared_ptr<IGameObject> TPtr;
+  typedef const TPtr &TPtrParam;
+  typedef boost::weak_ptr<IGameObject> TWeakPtr;
+  typedef const TWeakPtr &TWeakPtrParam;
+  
   enum Type
   {
     Player,
@@ -11,18 +20,19 @@ struct IGameObject
   };
 
   typedef Point TFieldPos;
-  typedef boost::shared_ptr<IGameObject> TPtr;
-  typedef const TPtr &TPtrParam;
 
   virtual Type GetType() const = 0; 
+  virtual TFieldPos GetPos() const = 0;
 
-  virtual void Update( float deltaTime ) {}
-  virtual void Render() const {}
+  virtual void Update() {}
+  virtual void Render( float deltaTime ) const {}
   virtual void SetPos( TFieldPos pos ) {}
 
   virtual void Touch( IGameObject *pWho ) {}
   virtual void Stop() {}
   virtual void Kill() {}
+  virtual void PlayerVisible( IGameObject *pPlayer ) {}
+  virtual void PlayerCouldBeAtPos( TFieldPos pos ) {}
 
   virtual ~IGameObject() {}
 };

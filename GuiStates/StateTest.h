@@ -13,8 +13,8 @@ public:
   GuiStateTest();
 
 private:
-  void OnRender() const override;
-  void OnUpdate( float deltaTime ) override;
+  void OnRender( float deltaTime ) const override;
+  void OnUpdate() override;
   void OnLButtonDown( Point pos ) override;
 
 private:
