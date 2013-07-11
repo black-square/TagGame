@@ -15,7 +15,7 @@ public:
 private:
   void StartAutoplayState();
   void StartMainGameState();
-  void StartZenGameState();
+  void StartTestState();
 };
 
 #endif // GuiStateMain_h__

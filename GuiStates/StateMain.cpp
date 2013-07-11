@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "StateMain.h"
 #include "Gui/Widgets.h"
+#include "StateTest.h"
 
 //////////////////////////////////////////////////////////////////////////
 GuiStateMain::GuiStateMain()
 {
   AddWidget( boost::make_shared<Gui::Image>(
-    Rect( Point(0, 0), Size(755, 600) ),
+    Rect( Point(0, 0), g_screenSize ),
     boost::make_shared<Texture>( "./_data/backg_main.png" )
     ));
  
@@ -39,8 +40,8 @@ GuiStateMain::GuiStateMain()
   AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(252, 300), Size(250, 50) ),
     pBtnFont, pBtnTex,
-    BIND_THIS(StartZenGameState),
-    "Zen Mode Game"
+    BIND_THIS(StartTestState),
+    "Test state"
   ));
 
   AddWidget( boost::make_shared<Gui::Button>(
@@ -64,8 +65,8 @@ void GuiStateMain::StartMainGameState()
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateMain::StartZenGameState()
+void GuiStateMain::StartTestState()
 {
-
+  GetManager()->SetState( boost::make_shared<GuiStateTest>() );
 }
 
