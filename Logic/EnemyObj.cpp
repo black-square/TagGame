@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "EnemyObj.h"
-#include "GuiStates\LogicConsts.h"
+#include "GameConsts.h"
 
 EnemyObj::EnemyObj( GameField &field, Texture::TPtrParam pTex ): 
   m_field(field), 

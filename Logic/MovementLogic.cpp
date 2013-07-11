@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "MovementLogic.h"
-#include "GuiStates\LogicConsts.h"
+#include "GameConsts.h"
 
 void MovementLogic::Update( IGameObject *pThis, GameField &field, TFieldPos &pos )
 {

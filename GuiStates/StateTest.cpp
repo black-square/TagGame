@@ -4,7 +4,7 @@
 #include "Gui/Widgets.h"
 #include "Logic/TrapObj.h"
 #include "Logic/EnemyObj.h"
-#include "LogicConsts.h"
+#include "GameConsts.h"
 
 GuiStateTest::GuiStateTest():
   m_pTexGrid( boost::make_shared<Texture>("./_data/grid.png") ),

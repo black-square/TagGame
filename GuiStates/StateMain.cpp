@@ -2,12 +2,13 @@
 #include "StateMain.h"
 #include "Gui/Widgets.h"
 #include "StateTest.h"
+#include "GameConsts.h"
 
 //////////////////////////////////////////////////////////////////////////
 GuiStateMain::GuiStateMain()
 {
   AddWidget( boost::make_shared<Gui::Image>(
-    Rect( Point(0, 0), g_screenSize ),
+    Rect( Point(0, 0), Editor::GetScreenSizePx() ),
     boost::make_shared<Texture>( "./_data/backg_main.png" )
     ));
  

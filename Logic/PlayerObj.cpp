@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PlayerObj.h"
 #include "Audio/SoundManager.h"
-#include "GuiStates/LogicConsts.h"
+#include "GameConsts.h"
 
 PlayerObj::PlayerObj( GameField &field, Texture::TPtrParam pTex ): 
   m_field(field), 

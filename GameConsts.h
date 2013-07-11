@@ -8,6 +8,8 @@ namespace Editor //Should be read from an editor
   inline int   EnemyShoutDistance() { return 10; }
   inline float PlayerCellMoveTime() { return 0.2f; }
   inline float EnemyCellMoveTime() { return 0.23f; } 
+
+  inline Size GetScreenSizePx(){ return Size(1024, 1024); }
 }
 
 
