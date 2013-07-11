@@ -14,16 +14,4 @@ void GameField::Clear()
 }
 //////////////////////////////////////////////////////////////////////////
 
-Point GetNextMovementPos( Point curPos, Point dstPos )
-{
-  //Bresenham's algorithm (http://en.wikipedia.org/wiki/Bresenham's_line_algorithm) 
-  //provides better performance and accuracy, but requires storing several variables 
-  //between calls
- 
-  typedef PointBase<float> PointF; 
-  const PointF diff( dstPos - curPos );
-  
-  return round<Point>( PointF(curPos) + vecNormalize( diff ) ); 
-}
-
 

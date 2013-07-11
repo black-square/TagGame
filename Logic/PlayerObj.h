@@ -5,6 +5,7 @@
 #include "GameField.h"
 #include "Core/TimeHelpers.hpp"
 #include "Graphics/Texture.h"
+#include "Core/DiscretePath.hpp"
 
 class PlayerObj: public IGameObject
 {
@@ -26,7 +27,7 @@ private:
   GameField &m_field;
   TFieldPos m_fieldPos;
   TFieldPos m_fieldDstPos;
-  TScreenPos m_screenPos;
+  DiscretePath<TFieldPos::TValueType> m_discretePath;
 
   SimpleTimer<float> m_fieldMovementTimer;
   SimpleTimer<float> m_screenMovementTimer;

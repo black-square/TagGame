@@ -71,6 +71,4 @@ private:
 };
 
 
-Point GetNextMovementPos( Point curPos, Point dstPos );
-
 #endif // GameField_h__
