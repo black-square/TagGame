@@ -103,5 +103,19 @@ void ForEach( const GameField &field, Fnc fnc )
 }
 //////////////////////////////////////////////////////////////////////////
 
+template<class Fnc>
+void ForEachRadius( GameField::TFieldPos center, GameField::TFieldSize::TValueType radius, Fnc fnc )
+{
+  const float radiusf = radius - 0.5f;
+  const float radius2 = radiusf * radiusf;
+  GameField::TFieldPos cur;
+
+  for( cur.x = center.x - radius; cur.x <= center.x + radius; ++cur.x )
+    for( cur.y = center.y - radius; cur.y <= center.y + radius; ++cur.y )
+      if( vecLengthSquared(PointBase<float>(cur - center)) <= radius2 )
+        fnc( cur );
+}
+//////////////////////////////////////////////////////////////////////////
+
 
 #endif // GameField_h__

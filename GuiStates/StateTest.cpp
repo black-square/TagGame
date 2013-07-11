@@ -5,7 +5,8 @@
 #include "Logic/TrapObj.h"
 
 GuiStateTest::GuiStateTest():
-  m_pTex( boost::make_shared<Texture>("./_data/grid.png") )
+  m_pTexGrid( boost::make_shared<Texture>("./_data/grid.png") ),
+  m_pTexMark( boost::make_shared<Texture>("./_data/white.png")  )
 {
   /*
   AddWidget( boost::make_shared<Gui::Image>( 
@@ -25,13 +26,18 @@ GuiStateTest::GuiStateTest():
 
 void GuiStateTest::OnRender() const
 {
-  ForEach( m_field.GetSize(), [&]( Point cur) {
-    Draw( *m_pTex, round<Point>(m_field.ToScreen(cur)) );
+  ForEach( m_field.GetSize(), [&]( Point cur ) {
+    Draw( *m_pTexGrid, round<Point>(m_field.ToScreen(cur)) );
   });
 
   ForEach( m_field, []( IGameObject::TPtrParam pObj) 
   {
     pObj->Render();
+  });
+
+  ForEachRadius( Point(10, 10), 5, [&]( Point cur ) 
+  {
+    Draw( *m_pTexMark, round<Point>(m_field.ToScreen(cur)), 0, change_a( Color::make_magenta(), 100) );
   });
 }
 //////////////////////////////////////////////////////////////////////////

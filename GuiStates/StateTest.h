@@ -19,7 +19,8 @@ private:
 
 private:
   GameField m_field;
-  Texture::TPtr m_pTex;
+  Texture::TPtr m_pTexGrid;
+  Texture::TPtr m_pTexMark;
   boost::weak_ptr<PlayerObj> m_pPlayer;
 };
 
