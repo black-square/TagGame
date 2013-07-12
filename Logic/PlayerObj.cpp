@@ -26,8 +26,7 @@ void PlayerObj::Render( float deltaTime ) const
 
 void PlayerObj::MoveTo( TFieldPos pos )
 {
-  const auto pSelfGuard( shared_from_this() );  //Protect from deletion before return
-  m_moveLogic.MoveTo(m_field, pos );
+  m_moveLogic.MoveTo(this, m_field, pos );
 }
 //////////////////////////////////////////////////////////////////////////
 

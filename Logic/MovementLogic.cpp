@@ -2,60 +2,74 @@
 #include "MovementLogic.h"
 #include "GameConsts.h"
 
-void MovementLogic::Update( IGameObject *pThis, GameField &field )
+bool MovementLogic::CheckNextPos( IGameObject *pThis, const GameField &field )
 {
-  if( m_fieldMovementTimer.TickWithRestart(Editor::LogicUpdateTime()) )
+  auto &pObj = field.Get( m_discretePath.GetNextPos() );
+
+  if( pObj )
   {
-    ASSERT( m_pos != m_dstPos );
-
-    TFieldPos nextPos( m_pos );
-
-    m_discretePath.Next( nextPos );
-
-    if( nextPos == m_dstPos )
-      m_fieldMovementTimer.Stop();
-
-    auto &pObj = field.Get( nextPos );
-
-    if( pObj )
-    {
-      m_fieldMovementTimer.Stop();
-      pObj->Touch(pThis);
-    }
-    else
-    {
-      field.Move( m_pos, nextPos );
-      m_pos = nextPos;
-    }
-    
-    if( !IsInProgress() )
-      m_pBody->MoveTo( field.ToScreen(GetPos()), GetCellMoveTime() );     
+    m_fieldMovementTimer.Stop();
+    m_pBody->MoveTo( field.ToScreen(GetPos()), GetCellMoveTime() );
+    pObj->Touch(pThis);
+    return false;
   }
+
+  return true;
 }
 //////////////////////////////////////////////////////////////////////////
 
-void MovementLogic::MoveTo( const GameField &field, TFieldPos dstPos )
+bool MovementLogic::Update( IGameObject *pThis, GameField &field )
 {
-  ASSERT( field.IsValid(m_pos) );
+  if( m_fieldMovementTimer.TickWithRestart(Editor::LogicUpdateTime()) )
+  {
+    ASSERT( GetPos() != GetDstPos() );
 
-  if( m_pos == dstPos )
-    return;
+    if( !CheckNextPos(pThis, field) )
+      return false;
 
-  m_dstPos = dstPos;
-  m_discretePath.Start( m_pos, dstPos );
+    field.Move( m_discretePath.GetPos(), m_discretePath.GetNextPos() );
+    m_discretePath.Step();
+    
+    if( GetPos() == GetDstPos() )
+    {
+      m_fieldMovementTimer.Stop();
+      return true;
+    }
+
+    if( !CheckNextPos(pThis, field) )
+      return false;   
+  }
+
+  return true;
+}
+//////////////////////////////////////////////////////////////////////////
+
+bool MovementLogic::MoveTo( IGameObject *pThis, const GameField &field, TFieldPos dstPos )
+{
+  ASSERT( field.IsValid(dstPos) );
+
+  if( GetPos() == dstPos )
+    return false;
+
+  m_discretePath.Start( dstPos );
+
+  if( !CheckNextPos(pThis, field) )
+    return false;
   
   if( !m_fieldMovementTimer.IsInProgress() ) 
     m_fieldMovementTimer.Start(); 
 
-  m_pBody->MoveTo( field.ToScreen(GetDstPos()), GetTotalMoveTime() + GetCellMoveTime() / 2 );
+  m_pBody->MoveTo( field.ToScreen(GetDstPos()), GetTotalMoveTime() );
+
+  return true;
 }
 //////////////////////////////////////////////////////////////////////////
 
 void MovementLogic::SetPos( const GameField &field, TFieldPos pos )
 {
   ASSERT( field.IsValid(pos) );
-  m_pos = pos; 
-  m_dstPos = pos;
+
+  m_discretePath.SetPos(pos);
   m_fieldMovementTimer.Stop();
 
   m_pBody->SetPos( field.ToScreen(pos) );
@@ -72,7 +86,7 @@ float MovementLogic::GetTotalMoveTime() const
 {
   ASSERT( IsInProgress() );
 
-  const TFieldPos delta( abs(GetDstPos() - m_pos) );
+  const TFieldPos delta( abs(GetDstPos() - GetPos()) );
 
   return std::max( delta.x, delta.y ) * GetCellMoveTime();
 }

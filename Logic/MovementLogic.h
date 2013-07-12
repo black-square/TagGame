@@ -18,19 +18,20 @@ public:
     m_fieldMovementTimer( cellMoveTime ), m_pBody(pBody)
   {}  
 
-  void Update( IGameObject *pThis, GameField &field );
-  void MoveTo( const GameField &field, TFieldPos dstPos );
+  bool Update( IGameObject *pThis, GameField &field );
+  bool MoveTo( IGameObject *pThis, const GameField &field, TFieldPos dstPos );
   void SetPos( const GameField &field, TFieldPos pos );
-  TFieldPos GetPos() const { return m_pos; }
+  TFieldPos GetPos() const { return m_discretePath.GetPos(); }
   void Stop();
   bool IsInProgress() const { return m_fieldMovementTimer.IsInProgress(); }
-  TFieldPos GetDstPos() const { ASSERT( IsInProgress() ); return m_dstPos; }
+  TFieldPos GetDstPos() const { ASSERT( IsInProgress() ); return m_discretePath.GetDstPos(); }
   float GetTotalMoveTime() const;
   float GetCellMoveTime() const { return m_fieldMovementTimer.GetTotalTime(); }
 
 private:
-  TFieldPos m_pos;
-  TFieldPos m_dstPos;
+  bool CheckNextPos( IGameObject *pThis, const GameField &field );
+
+private:
   DiscretePath<TFieldPos::TValueType> m_discretePath;
   SimpleTimer<float> m_fieldMovementTimer;
   IBody *m_pBody;

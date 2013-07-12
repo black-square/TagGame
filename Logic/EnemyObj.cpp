@@ -15,9 +15,8 @@ EnemyObj::EnemyObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam
 
 void EnemyObj::Update()
 { 
-  const auto pSelfGuard( shared_from_this() );  //Protect from deletion before return
-
-  m_moveLogic.Update( this, m_field );
+  if( !m_moveLogic.Update(this, m_field) )
+    return;  
   
   const auto pTarget = m_pTarget.lock();
   const auto visDistSquared = Editor::EnemyVisibleDistance() * Editor::EnemyVisibleDistance();
@@ -29,7 +28,8 @@ void EnemyObj::Update()
   }
 
   if( !m_moveLogic.IsInProgress() || m_moveLogic.GetDstPos() != pTarget->GetPos() )
-    MoveTo( pTarget->GetPos() ); 
+    if( !m_moveLogic.MoveTo( this, m_field, pTarget->GetPos() ) )
+      return; 
     
   ForEachRadius( m_field, m_moveLogic.GetPos(), Editor::EnemyShoutDistance(), [this]( IGameObject::TPtrParam pObj ) 
   { 
@@ -57,7 +57,7 @@ void EnemyObj::Render( float deltaTime ) const
 
 void EnemyObj::MoveTo( TFieldPos pos )
 {
-  m_moveLogic.MoveTo(m_field, pos );
+  m_moveLogic.MoveTo( this, m_field, pos );
 }
 //////////////////////////////////////////////////////////////////////////
 
