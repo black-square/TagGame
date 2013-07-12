@@ -49,13 +49,16 @@ void GuiStateTest::OnRender( float deltaTime ) const
   m_camera.Update( deltaTime );
   m_camera.SetTransform();
 
-  ForEach( m_field.GetSize(), [&]( Point cur ) {
+  ForEach( m_field.GetSize(), [this]( Point cur ) {
     Draw( *m_pTexGrid, round<Point>(m_field.ToScreen(cur)) );
   });
 
-  ForEach( m_field, [deltaTime]( const IGameObject *pObj ) 
+  ForEach( m_field.GetSize(), [this, deltaTime]( Point cur ) 
   {
-    pObj->Render( deltaTime );
+    auto &pVal = m_field.Get(cur);
+
+    if( pVal )
+      pVal->Render( deltaTime );
   });  
 
   m_pEffects->Render(deltaTime);
