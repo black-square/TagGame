@@ -5,7 +5,7 @@
 
 PlayerObj::PlayerObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex ): 
   m_field(field), 
-  m_moveLogic( Editor::PlayerCellMoveTime() ),
+  m_moveLogic( Editor::PlayerCellMoveTime(), pBody.get() ),
   m_pBody(pBody),
   m_pTex(pTex)
 {}
@@ -14,9 +14,6 @@ PlayerObj::PlayerObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrPar
 void PlayerObj::Update()
 {
   m_moveLogic.Update( this, m_field );
-
-  if( !m_moveLogic.IsInProgress() )
-    m_pBody->MoveTo( m_field.ToScreen(m_moveLogic.GetPos()), m_moveLogic.GetCellMoveTime() );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -29,17 +26,14 @@ void PlayerObj::Render( float deltaTime ) const
 
 void PlayerObj::MoveTo( TFieldPos pos )
 {
+  const auto pSelfGuard( shared_from_this() );  //Protect from deletion before return
   m_moveLogic.MoveTo(m_field, pos );
-
-  if( m_moveLogic.IsInProgress() )
-    m_pBody->MoveTo( m_field.ToScreen(pos), m_moveLogic.GetTotalMoveTime() + m_moveLogic.GetCellMoveTime() / 2 );
 }
 //////////////////////////////////////////////////////////////////////////
 
 void PlayerObj::SetPos( TFieldPos pos ) 
 {
   m_moveLogic.SetPos( m_field, pos );
-  m_pBody->SetPos( m_field.ToScreen(pos) );
 }
 //////////////////////////////////////////////////////////////////////////
 

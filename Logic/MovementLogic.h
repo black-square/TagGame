@@ -5,6 +5,7 @@
 #include "GameField.h"
 #include "Core/TimeHelpers.hpp"
 #include "Core/DiscretePath.hpp"
+#include "Presentation/IBody.h"
 
 class MovementLogic
 {
@@ -13,8 +14,8 @@ public:
   typedef GameField::TScreenPos TScreenPos; 
 
 public:
-  explicit MovementLogic( float cellMoveTime ):
-    m_fieldMovementTimer( cellMoveTime )
+  MovementLogic( float cellMoveTime, IBody *pBody ):
+    m_fieldMovementTimer( cellMoveTime ), m_pBody(pBody)
   {}  
 
   void Update( IGameObject *pThis, GameField &field );
@@ -32,6 +33,7 @@ private:
   TFieldPos m_dstPos;
   DiscretePath<TFieldPos::TValueType> m_discretePath;
   SimpleTimer<float> m_fieldMovementTimer;
+  IBody *m_pBody;
 };
 
 

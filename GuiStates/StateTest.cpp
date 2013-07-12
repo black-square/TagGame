@@ -28,8 +28,8 @@ GuiStateTest::GuiStateTest():
     for( int y = 0; y < m_field.GetSize().h; y +=4 )
       m_field.Set( Point(x ,y), boost::make_shared<TrapObj>( m_field, m_pTexMark ) );
   
-  m_field.Set( Point(10, 10), boost::make_shared<EnemyObj>( m_field, m_pTexMark ) );
-  m_field.Set( Point(20, 10), boost::make_shared<EnemyObj>( m_field, m_pTexMark ) );
+  m_field.Set( Point(10, 10), boost::make_shared<EnemyObj>( m_field, boost::make_shared<Body>(pTexPlayer), m_pTexMark ) );
+  m_field.Set( Point(20, 10), boost::make_shared<EnemyObj>( m_field, boost::make_shared<Body>(pTexPlayer), m_pTexMark ) );
   
   m_pTexExplosion = boost::make_shared<Texture>( "./_data/explosion.png", 4 );   
 }

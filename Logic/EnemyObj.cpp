@@ -3,9 +3,10 @@
 #include "GameConsts.h"
 #include "Audio/SoundManager.h"
 
-EnemyObj::EnemyObj( GameField &field, Texture::TPtrParam pTex ): 
+EnemyObj::EnemyObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex ): 
   m_field(field), 
-  m_moveLogic(Editor::EnemyCellMoveTime()),
+  m_moveLogic(Editor::EnemyCellMoveTime(), pBody.get() ),
+  m_pBody(pBody),
   m_pTex(pTex)
 {
 
@@ -49,7 +50,8 @@ void EnemyObj::Render( float deltaTime ) const
     Draw( *m_pTex, round<Point>(m_field.ToScreen(cur)), 0, change_a( Color::make_magenta(), 25) );
   });
 
-  Draw( *m_pTex, Rect( round<Point>(m_field.ToScreen(m_moveLogic.GetPos())), Size(15, 15)), 0, Color::make_red() );  
+  Draw( *m_pTex, Rect( round<Point>(m_field.ToScreen(m_moveLogic.GetPos())), Size(15, 15)), 0, Color::make_red() );
+  m_pBody->Render( deltaTime );  
 }
 //////////////////////////////////////////////////////////////////////////
 

@@ -13,7 +13,7 @@ public:
   typedef GameField::TScreenPos TScreenPos; 
 
 public:
-  EnemyObj( GameField &field, Texture::TPtrParam pTex );
+  EnemyObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex );
 
 public:
   Type GetType() const override { return IGameObject::Enemy; }
@@ -28,12 +28,11 @@ public:
 public:
   void MoveTo( TFieldPos pos );
 
-  
-
 private:
   GameField &m_field;
   MovementLogic m_moveLogic;
 
+  IBody::TPtr m_pBody;
   Texture::TPtr m_pTex;
   IGameObject::TWeakPtr m_pTarget;
 };

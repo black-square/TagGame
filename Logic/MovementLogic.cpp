@@ -26,7 +26,10 @@ void MovementLogic::Update( IGameObject *pThis, GameField &field )
     {
       field.Move( m_pos, nextPos );
       m_pos = nextPos;
-    }     
+    }
+    
+    if( !IsInProgress() )
+      m_pBody->MoveTo( field.ToScreen(GetPos()), GetCellMoveTime() );     
   }
 }
 //////////////////////////////////////////////////////////////////////////
@@ -43,6 +46,8 @@ void MovementLogic::MoveTo( const GameField &field, TFieldPos dstPos )
   
   if( !m_fieldMovementTimer.IsInProgress() ) 
     m_fieldMovementTimer.Start(); 
+
+  m_pBody->MoveTo( field.ToScreen(GetDstPos()), GetTotalMoveTime() + GetCellMoveTime() / 2 );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -52,6 +57,8 @@ void MovementLogic::SetPos( const GameField &field, TFieldPos pos )
   m_pos = pos; 
   m_dstPos = pos;
   m_fieldMovementTimer.Stop();
+
+  m_pBody->SetPos( field.ToScreen(pos) );
 }
 //////////////////////////////////////////////////////////////////////////
 
