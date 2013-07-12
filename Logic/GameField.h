@@ -59,7 +59,7 @@ public:
   void Set( int x, int y )
   {
     ASSERT( Get(x, y) );
-    m_allObjects.erase( m_field[x][y].get() );
+    m_field[x][y].get()->erase();
     m_field[x][y].reset();
   }
 
@@ -115,11 +115,19 @@ void ForEach( GameField::TFieldSize size, Fnc fnc )
 template<class Fnc>
 void ForEach( const GameField &field, Fnc fnc )
 {
-  for( auto &obj: field.m_allObjects )
+  //We are moving items to new list (very fast operation) to prevent problems with deleting
+  GameField::TAllObjects newList;
+
+  while( !field.m_allObjects.empty() )
   {
-    ASSERT( field.Get(obj.GetPos()).get() == &obj );
-    fnc( &obj );
+    IGameObject * const pObj = field.m_allObjects.pop_front_ptr();
+    newList.push_back( pObj );
+
+    ASSERT( field.Get(pObj->GetPos()).get() == pObj );
+    fnc( pObj );
   }
+
+  field.m_allObjects.swap( newList );
 }
 //////////////////////////////////////////////////////////////////////////
 

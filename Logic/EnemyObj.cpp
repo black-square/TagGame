@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "EnemyObj.h"
 #include "GameConsts.h"
+#include "Audio/SoundManager.h"
 
 EnemyObj::EnemyObj( GameField &field, Texture::TPtrParam pTex ): 
   m_field(field), 
@@ -13,10 +14,11 @@ EnemyObj::EnemyObj( GameField &field, Texture::TPtrParam pTex ):
 
 void EnemyObj::Update()
 { 
+  const auto pSelfGuard( shared_from_this() );  //Protect from deletion before return
+
   m_moveLogic.Update( this, m_field, m_pos );
   
-  auto pTarget = m_pTarget.lock();
-
+  const auto pTarget = m_pTarget.lock();
   const auto visDistSquared = Editor::EnemyVisibleDistance() * Editor::EnemyVisibleDistance();
 
   if( !pTarget || vecLengthSquared(m_pos - pTarget->GetPos()) > visDistSquared )
@@ -32,7 +34,6 @@ void EnemyObj::Update()
   { 
     pObj->PlayerCouldBeAtPos( m_pos );    
   }); 
-   
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -83,4 +84,11 @@ void EnemyObj::PlayerCouldBeAtPos( TFieldPos pos )
     return;
 
   MoveTo( pos );  
+}
+//////////////////////////////////////////////////////////////////////////
+
+void EnemyObj::Kill()
+{
+  m_field.Set( m_pos );
+  PlaySound("./_data/expl.wav");
 }

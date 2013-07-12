@@ -22,7 +22,10 @@ GuiStateTest::GuiStateTest():
   const auto pPlayer = boost::make_shared<PlayerObj>( m_field, pTexPlayer );
   m_pPlayer = pPlayer;
   m_field.Set( Point(3,2), pPlayer ); 
-  m_field.Set( Point(7,4), boost::make_shared<TrapObj>( m_field, m_pTexMark ) );
+
+  for( int x = 0; x < m_field.GetSize().w; x +=4 )
+    for( int y = 0; y < m_field.GetSize().h; y +=4 )
+      m_field.Set( Point(x ,y), boost::make_shared<TrapObj>( m_field, m_pTexMark ) );
   
   m_field.Set( Point(10, 10), boost::make_shared<EnemyObj>( m_field, m_pTexMark ) );
   m_field.Set( Point(20, 10), boost::make_shared<EnemyObj>( m_field, m_pTexMark ) );  

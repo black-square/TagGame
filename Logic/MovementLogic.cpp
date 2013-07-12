@@ -19,8 +19,8 @@ void MovementLogic::Update( IGameObject *pThis, GameField &field, TFieldPos &pos
 
     if( pObj )
     {
-      pObj->Touch(pThis);
       m_fieldMovementTimer.Stop();
+      pObj->Touch(pThis);
     }
     else
     {

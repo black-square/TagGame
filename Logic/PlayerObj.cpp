@@ -39,5 +39,5 @@ void PlayerObj::SetPos( TFieldPos pos )
 
 void PlayerObj::Stop()
 {
-  PlaySound("./_data/click.wav"); 
+  PlaySound("./_data/fall.wav"); 
 }

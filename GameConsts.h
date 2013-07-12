@@ -9,7 +9,7 @@ namespace Editor //Should be read from an editor
   inline float PlayerCellMoveTime() { return 0.2f; }
   inline float EnemyCellMoveTime() { return 0.23f; } 
 
-  inline Size GetScreenSizePx(){ return Size(1024, 1024); }
+  inline Size  GetScreenSizePx(){ return Size(1024, 512); }
 }
 
 

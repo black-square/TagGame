@@ -23,9 +23,12 @@ public:
   void SetPos( TFieldPos pos ) override;
   void PlayerVisible( IGameObject *pPlayer ) override;
   void PlayerCouldBeAtPos( TFieldPos pos ) override;
+  void Kill() override;
 
 public:
   void MoveTo( TFieldPos pos );
+
+  
 
 private:
   GameField &m_field;
