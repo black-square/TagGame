@@ -14,6 +14,7 @@ struct IBody
   virtual void Render( float deltaTime ) {}
   virtual void MoveTo( TPoint dst, float time ) {}
   virtual void SetPos( TPoint dst ) {}
+  virtual TPoint GetPos() const = 0;
   virtual void Stop() {}
   virtual IEffects *Effects() const { static IEffects dummy; return &dummy; }
 };

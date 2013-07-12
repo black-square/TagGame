@@ -6,10 +6,12 @@
 #include "Logic/EnemyObj.h"
 #include "GameConsts.h"
 #include "Presentation/Body.h"
+#include "Core/Rect.hpp"
 
 GuiStateTest::GuiStateTest():
   m_pTexGrid( boost::make_shared<Texture>("./_data/grid.png") ),
-  m_pTexMark( boost::make_shared<Texture>("./_data/white.png")  )
+  m_pTexMark( boost::make_shared<Texture>("./_data/white.png")  ),
+  m_camera( Camera::SizeF(Editor::FieldSizePx()), Camera::SizeF(Editor::VisibleFieldSizePx()) )
 {
   /*
   AddWidget( boost::make_shared<Gui::Image>( 
@@ -38,6 +40,14 @@ GuiStateTest::GuiStateTest():
 
 void GuiStateTest::OnRender( float deltaTime ) const
 {
+  const auto pPlayer = m_pPlayer.lock();
+
+  if( pPlayer )
+    m_camera.SetDestPos( pPlayer->GetBody()->GetPos() );
+  
+  m_camera.Update( deltaTime );
+  m_camera.SetTransform();
+
   ForEach( m_field.GetSize(), [&]( Point cur ) {
     Draw( *m_pTexGrid, round<Point>(m_field.ToScreen(cur)) );
   });
@@ -48,6 +58,8 @@ void GuiStateTest::OnRender( float deltaTime ) const
   });  
 
   m_pEffects->Render(deltaTime);
+
+  m_camera.RestoreTransform();
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -75,8 +87,10 @@ void GuiStateTest::OnLButtonDown( Point pos )
 {
   const auto pPlayer = m_pPlayer.lock();
 
-  if( pPlayer )
-    pPlayer->MoveTo( m_field.FromScreen(GameField::TScreenPos(pos)) );  
+  const auto fieldPos = m_field.FromScreen(m_camera.screenToField(GameField::TScreenPos(pos)));
+
+  if( pPlayer && m_field.IsValid(fieldPos) )
+    pPlayer->MoveTo( fieldPos );  
 }
 
 //////////////////////////////////////////////////////////////////////////

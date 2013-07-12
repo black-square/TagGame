@@ -11,10 +11,6 @@ public:
 
 public:
   GuiStateMain();
-
-private:
-  void StartAutoplayState();
-  void StartMainGameState();
 };
 
 #endif // GuiStateMain_h__

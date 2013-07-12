@@ -5,6 +5,7 @@
 #include "Logic/PlayerObj.h"
 #include "Particles/ParticlesManager.h"
 #include "Presentation/Effects.h"
+#include "Graphics/Camera.h"
 
 class GuiStateTest: public Gui::State
 {   
@@ -25,6 +26,7 @@ private:
   Texture::TPtr m_pTexMark;
   boost::weak_ptr<PlayerObj> m_pPlayer;
   Effects::TPtr m_pEffects;
+  mutable Camera m_camera;
 };
 
 #endif // StateTest_h__

@@ -15,6 +15,7 @@ public:
   void SetPos( TPoint dst ) override;
   void Stop() override;
   IEffects *Effects() const override { return &*m_pEff; }
+  TPoint GetPos() const override { return m_pos; }
 
 private:
   TPoint m_pos;

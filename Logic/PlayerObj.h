@@ -27,6 +27,7 @@ public:
 
 public:
   void MoveTo( TFieldPos pos );
+  const IBody *GetBody() const { return &*m_pBody; }
 
 private:
   GameField &m_field;

@@ -13,6 +13,7 @@ public:
   typedef IGameObject::TFieldPos TFieldPos;
   typedef Size TFieldSize;
   typedef PointBase<float> TScreenPos;  
+  typedef SizeBase<float> TScreenSize;  
 
 public:
   GameField();

@@ -34,35 +34,23 @@ GuiStateMain::GuiStateMain()
   AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(252, 220), Size(250, 50) ),
     pBtnFont, pBtnTex,
-    BIND_THIS(StartMainGameState),
+    [this](){ GetManager()->SetState( boost::make_shared<GuiStateTest>() ); },
     "Start Game"
   ));
 
   AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(252, 300), Size(250, 50) ),
     pBtnFont, pBtnTex,
-    [this](){ GetManager()->SetState( boost::make_shared<GuiStateTest>() ); },
+    [this](){},
     "Test state"
   ));
 
   AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(252, 380), Size(250, 50) ),
     pBtnFont, pBtnTex,
-    BIND_THIS(StartAutoplayState),
+    [this](){},
     "Autoplay Test"
   ));
-}
-//////////////////////////////////////////////////////////////////////////
-
-void GuiStateMain::StartAutoplayState()
-{
-
-}
-//////////////////////////////////////////////////////////////////////////
-
-void GuiStateMain::StartMainGameState()
-{
-
 }
 //////////////////////////////////////////////////////////////////////////
 
