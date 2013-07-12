@@ -2,11 +2,12 @@
 #include "PlayerObj.h"
 #include "GameConsts.h"
 
-PlayerObj::PlayerObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex ): 
+PlayerObj::PlayerObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex, IGlobalGameEvents *pGameEvents ): 
   m_field(field), 
   m_moveLogic( Editor::PlayerCellMoveTime(), pBody.get() ),
   m_pBody(pBody),
-  m_pTex(pTex)
+  m_pTex(pTex),
+  m_pGameEvents(pGameEvents)
 {}
 //////////////////////////////////////////////////////////////////////////
 
@@ -38,4 +39,24 @@ void PlayerObj::SetPos( TFieldPos pos )
 void PlayerObj::Stop()
 {
   m_pBody->Effects()->Play( m_field.ToScreenCenter(GetPos()), IEffects::PlayerStoped );  
+}
+//////////////////////////////////////////////////////////////////////////
+
+void PlayerObj::Kill( IGameObject *pKiller )
+{
+  m_pBody->Effects()->Play( m_field.ToScreenCenter(GetPos()), IEffects::PlayerDied );
+  m_field.Set( m_moveLogic.GetPos() );  
+}
+//////////////////////////////////////////////////////////////////////////
+
+void PlayerObj::Touch( IGameObject *pWho )
+{
+  ASSERT( pWho != 0 );
+
+  if( pWho->GetType() == IGameObject::Enemy )
+  {
+    m_pGameEvents->OnLifeLost(); 
+    pWho->Kill(this);
+    Kill( this );  
+  }  
 }

@@ -18,7 +18,7 @@ void TrapObj::Touch( IGameObject *pWho )
     break;
 
   case Enemy:
-    pWho->Kill();
+    pWho->Kill(this);
     break;     
   }
 }

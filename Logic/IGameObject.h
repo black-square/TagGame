@@ -30,7 +30,7 @@ struct IGameObject: boost::enable_shared_from_this<IGameObject>, TinyLink<GameOb
 
   virtual void Touch( IGameObject *pWho ) {}
   virtual void Stop() {}
-  virtual void Kill() {}
+  virtual void Kill( IGameObject *pKiller ) {}
   virtual void PlayerVisible( IGameObject *pPlayer ) {}
   virtual void PlayerCouldBeAtPos( TFieldPos pos ) {}
 

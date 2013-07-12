@@ -5,6 +5,7 @@
 #include "GameField.h"
 #include "Graphics/Texture.h"
 #include "MovementLogic.h"
+#include "IGlobalGameEvents.h"
 
 class EnemyObj: public IGameObject
 {
@@ -13,7 +14,7 @@ public:
   typedef GameField::TScreenPos TScreenPos; 
 
 public:
-  EnemyObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex );
+  EnemyObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex, IGlobalGameEvents *pGameEvents );
 
 public:
   Type GetType() const override { return IGameObject::Enemy; }
@@ -23,7 +24,7 @@ public:
   void SetPos( TFieldPos pos ) override;
   void PlayerVisible( IGameObject *pPlayer ) override;
   void PlayerCouldBeAtPos( TFieldPos pos ) override;
-  void Kill() override;
+  void Kill( IGameObject *pKiller ) override;
 
 public:
   void MoveTo( TFieldPos pos );
@@ -35,6 +36,7 @@ private:
   IBody::TPtr m_pBody;
   Texture::TPtr m_pTex;
   IGameObject::TWeakPtr m_pTarget;
+  IGlobalGameEvents *m_pGameEvents;
 };
 
 

@@ -6,7 +6,8 @@ struct IEffects
   enum Effect
   {
     EnemyDied,
-    PlayerStoped
+    PlayerStoped,
+    PlayerDied
   };
 
   typedef boost::shared_ptr<IEffects> TPtr;

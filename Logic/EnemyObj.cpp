@@ -2,11 +2,12 @@
 #include "EnemyObj.h"
 #include "GameConsts.h"
 
-EnemyObj::EnemyObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex ): 
+EnemyObj::EnemyObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex, IGlobalGameEvents *pGameEvents ): 
   m_field(field), 
   m_moveLogic(Editor::EnemyCellMoveTime(), pBody.get() ),
   m_pBody(pBody),
-  m_pTex(pTex)
+  m_pTex(pTex),
+  m_pGameEvents(pGameEvents)
 {
 
 }
@@ -91,8 +92,14 @@ void EnemyObj::PlayerCouldBeAtPos( TFieldPos pos )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void EnemyObj::Kill()
+void EnemyObj::Kill( IGameObject *pKiller )
 {
-  m_pBody->Effects()->Play( m_field.ToScreenCenter(GetPos()), IEffects::EnemyDied );  
+  ASSERT( pKiller != 0 );
+
+  m_pBody->Effects()->Play( m_field.ToScreenCenter(GetPos()), IEffects::EnemyDied );
+  
+  if( pKiller->GetType() == IGameObject::Trap ) 
+    m_pGameEvents->OnAddScore(100);
+     
   m_field.Set( m_moveLogic.GetPos() );
 }

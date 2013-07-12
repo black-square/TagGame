@@ -6,6 +6,7 @@
 #include "MovementLogic.h"
 #include "Presentation/IBody.h"
 #include "Graphics/Texture.h"
+#include "IGlobalGameEvents.h"
 
 
 class PlayerObj: public IGameObject
@@ -15,7 +16,7 @@ public:
   typedef GameField::TScreenPos TScreenPos; 
 
 public:
-  PlayerObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex );
+  PlayerObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex, IGlobalGameEvents *pGameEvents );
 
 public:
   Type GetType() const override { return IGameObject::Player; }
@@ -24,10 +25,12 @@ public:
   void Render( float deltaTime ) const override;
   void SetPos( TFieldPos pos ) override;
   void Stop() override;
+  void Kill( IGameObject *pKiller ) override;
+  void Touch( IGameObject *pWho ) override;
 
 public:
   void MoveTo( TFieldPos pos );
-  const IBody *GetBody() const { return &*m_pBody; }
+  const IBody *GetBody() const { return &*m_pBody; } 
 
 private:
   GameField &m_field;
@@ -35,6 +38,7 @@ private:
 
   IBody::TPtr m_pBody;
   Texture::TPtr m_pTex;
+  IGlobalGameEvents *m_pGameEvents;
 };
 
 #endif // PlayerObj_h__

@@ -18,6 +18,7 @@ void Effects::Play( TPoint pos, Effect effect )
       break;
 
     case IEffects::EnemyDied:
+    case IEffects::PlayerDied:
       PlaySound("./_data/expl.wav");
       MakeExplosion( m_pm, round<Point>(pos), m_pTexExplosion );
       break;
