@@ -23,7 +23,7 @@ public:
   TFieldPos GetPos() const { return m_pos; }
   void Stop();
   bool IsInProgress() const { return m_fieldMovementTimer.IsInProgress(); }
-  TFieldPos GetDstPos() const { return m_dstPos; }
+  TFieldPos GetDstPos() const { ASSERT( IsInProgress() ); return m_dstPos; }
   float GetTotalMoveTime() const;
   float GetCellMoveTime() const { return m_fieldMovementTimer.GetTotalTime(); }
 

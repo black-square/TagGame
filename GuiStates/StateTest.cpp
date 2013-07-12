@@ -29,8 +29,9 @@ GuiStateTest::GuiStateTest():
       m_field.Set( Point(x ,y), boost::make_shared<TrapObj>( m_field, m_pTexMark ) );
   
   m_field.Set( Point(10, 10), boost::make_shared<EnemyObj>( m_field, m_pTexMark ) );
-  m_field.Set( Point(20, 10), boost::make_shared<EnemyObj>( m_field, m_pTexMark ) );  
+  m_field.Set( Point(20, 10), boost::make_shared<EnemyObj>( m_field, m_pTexMark ) );
   
+  m_pTexExplosion = boost::make_shared<Texture>( "./_data/explosion.png", 4 );   
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -43,7 +44,10 @@ void GuiStateTest::OnRender( float deltaTime ) const
   ForEach( m_field, [deltaTime]( const IGameObject *pObj ) 
   {
     pObj->Render( deltaTime );
-  });
+  });  
+
+  m_particlesManager.Update(deltaTime);
+  m_particlesManager.Render();
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -72,7 +76,9 @@ void GuiStateTest::OnLButtonDown( Point pos )
   const auto pPlayer = m_pPlayer.lock();
 
   if( pPlayer )
-    pPlayer->MoveTo( m_field.FromScreen(GameField::TScreenPos(pos)) );  
+    pPlayer->MoveTo( m_field.FromScreen(GameField::TScreenPos(pos)) ); 
+    
+  MakeExplosion( m_particlesManager, pos, m_pTexExplosion ); 
 }
 
 //////////////////////////////////////////////////////////////////////////

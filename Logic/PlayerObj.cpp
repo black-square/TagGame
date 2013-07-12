@@ -30,7 +30,9 @@ void PlayerObj::Render( float deltaTime ) const
 void PlayerObj::MoveTo( TFieldPos pos )
 {
   m_moveLogic.MoveTo(m_field, pos );
-  m_pBody->MoveTo( m_field.ToScreen(pos), m_moveLogic.GetTotalMoveTime() + m_moveLogic.GetCellMoveTime() / 2 );
+
+  if( m_moveLogic.IsInProgress() )
+    m_pBody->MoveTo( m_field.ToScreen(pos), m_moveLogic.GetTotalMoveTime() + m_moveLogic.GetCellMoveTime() / 2 );
 }
 //////////////////////////////////////////////////////////////////////////
 
