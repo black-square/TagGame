@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "EnemyObj.h"
 #include "GameConsts.h"
-#include "Audio/SoundManager.h"
 
 EnemyObj::EnemyObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex ): 
   m_field(field), 
@@ -50,7 +49,7 @@ void EnemyObj::Render( float deltaTime ) const
     Draw( *m_pTex, round<Point>(m_field.ToScreen(cur)), 0, change_a( Color::make_magenta(), 25) );
   });
 
-  Draw( *m_pTex, Rect( round<Point>(m_field.ToScreen(m_moveLogic.GetPos())), Size(15, 15)), 0, Color::make_red() );
+  Draw( *m_pTex, round<Point>(m_field.ToScreen(m_moveLogic.GetPos())), 0, Color::make_white_a(40) );
   m_pBody->Render( deltaTime );  
 }
 //////////////////////////////////////////////////////////////////////////
@@ -90,6 +89,6 @@ void EnemyObj::PlayerCouldBeAtPos( TFieldPos pos )
 
 void EnemyObj::Kill()
 {
+  m_pBody->Effects()->Play( m_field.ToScreenCenter(GetPos()), IEffects::EnemyDied );  
   m_field.Set( m_moveLogic.GetPos() );
-  PlaySound("./_data/expl.wav");
 }

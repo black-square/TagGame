@@ -4,6 +4,7 @@
 #include "Gui/State.h"
 #include "Logic/PlayerObj.h"
 #include "Particles/ParticlesManager.h"
+#include "Presentation/Effects.h"
 
 class GuiStateTest: public Gui::State
 {   
@@ -22,9 +23,8 @@ private:
   GameField m_field;
   Texture::TPtr m_pTexGrid;
   Texture::TPtr m_pTexMark;
-  Texture::TPtr m_pTexExplosion;
   boost::weak_ptr<PlayerObj> m_pPlayer;
-  mutable ParticlesManager m_particlesManager;
+  Effects::TPtr m_pEffects;
 };
 
 #endif // StateTest_h__

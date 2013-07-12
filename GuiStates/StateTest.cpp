@@ -19,8 +19,9 @@ GuiStateTest::GuiStateTest():
   */
 
   const Texture::TPtr pTexPlayer = boost::make_shared<Texture>( "./_data/mark.png" );
+  m_pEffects = boost::make_shared<Effects>();
 
-  const auto pPlayer = boost::make_shared<PlayerObj>( m_field, boost::make_shared<Body>(pTexPlayer), m_pTexMark );
+  const auto pPlayer = boost::make_shared<PlayerObj>( m_field, boost::make_shared<Body>(pTexPlayer, m_pEffects), m_pTexMark );
   m_pPlayer = pPlayer;
   m_field.Set( Point(3,2), pPlayer ); 
 
@@ -28,10 +29,10 @@ GuiStateTest::GuiStateTest():
     for( int y = 0; y < m_field.GetSize().h; y +=4 )
       m_field.Set( Point(x ,y), boost::make_shared<TrapObj>( m_field, m_pTexMark ) );
   
-  m_field.Set( Point(10, 10), boost::make_shared<EnemyObj>( m_field, boost::make_shared<Body>(pTexPlayer), m_pTexMark ) );
-  m_field.Set( Point(20, 10), boost::make_shared<EnemyObj>( m_field, boost::make_shared<Body>(pTexPlayer), m_pTexMark ) );
-  
-  m_pTexExplosion = boost::make_shared<Texture>( "./_data/explosion.png", 4 );   
+  m_field.Set( Point(10, 10), boost::make_shared<EnemyObj>( m_field, boost::make_shared<Body>(pTexPlayer, m_pEffects), m_pTexMark ) );
+  m_field.Set( Point(20, 10), boost::make_shared<EnemyObj>( m_field, boost::make_shared<Body>(pTexPlayer, m_pEffects), m_pTexMark ) );
+
+     
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -46,8 +47,7 @@ void GuiStateTest::OnRender( float deltaTime ) const
     pObj->Render( deltaTime );
   });  
 
-  m_particlesManager.Update(deltaTime);
-  m_particlesManager.Render();
+  m_pEffects->Render(deltaTime);
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -76,9 +76,7 @@ void GuiStateTest::OnLButtonDown( Point pos )
   const auto pPlayer = m_pPlayer.lock();
 
   if( pPlayer )
-    pPlayer->MoveTo( m_field.FromScreen(GameField::TScreenPos(pos)) ); 
-    
-  MakeExplosion( m_particlesManager, pos, m_pTexExplosion ); 
+    pPlayer->MoveTo( m_field.FromScreen(GameField::TScreenPos(pos)) );  
 }
 
 //////////////////////////////////////////////////////////////////////////

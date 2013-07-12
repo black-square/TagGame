@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "Body.h"
 #include "Core/Interp.hpp"
+#include "GameConsts.h"
 
-Body::Body( Texture::TPtrParam pTex ):
+Body::Body( Texture::TPtrParam pTex, IEffects::TPtrParam pEff ):
   m_curTime(0),
   m_totalTime(0),
-  m_pTex(pTex)
+  m_pTex(pTex),
+  m_pEff(pEff)
 {}
 //////////////////////////////////////////////////////////////////////////
 
@@ -19,7 +21,7 @@ void Body::Render( float deltaTime )
     m_pos = Lerp( m_fromPos, m_dstPos, m_curTime / m_totalTime );
   }
 
-  Draw( *m_pTex, Rect( round<Point>(m_pos), Size(15, 15)) );
+  Draw( *m_pTex, Rect( round<Point>(m_pos), Size(Editor::GetCellSizePx() - 1, Editor::GetCellSizePx() - 1)) );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -50,3 +52,4 @@ void Body::Stop()
   m_curTime = 0;
   m_totalTime = 0;
 }
+//////////////////////////////////////////////////////////////////////////

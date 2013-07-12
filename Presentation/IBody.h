@@ -1,5 +1,8 @@
+
 #ifndef IBody_h__
 #define IBody_h__
+
+#include "IEffects.h"
 
 struct IBody
 {
@@ -12,6 +15,7 @@ struct IBody
   virtual void MoveTo( TPoint dst, float time ) {}
   virtual void SetPos( TPoint dst ) {}
   virtual void Stop() {}
+  virtual IEffects *Effects() const { static IEffects dummy; return &dummy; }
 };
 
 

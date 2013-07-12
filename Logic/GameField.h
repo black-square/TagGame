@@ -2,11 +2,11 @@
 #define GameField_h__
 
 #include "IGameObject.h"
+#include "GameConsts.h"
 
 class GameField: boost::noncopyable
 {
 private:
-  enum { FieldSize = 64, CellSizePx = 16 };
   typedef TinyList<IGameObject, GameObjectListTag> TAllObjects;
 
 public:
@@ -21,7 +21,7 @@ public:
 
   bool IsValid( int x, int y ) const
   {
-    return x >= 0 && x < FieldSize && y >= 0 && y < FieldSize;
+    return x >= 0 && x < GetSize().w && y >= 0 && y < GetSize().h;
   }
 
   bool IsValid( TFieldPos pt ) const
@@ -31,12 +31,17 @@ public:
 
   TScreenPos ToScreen( TFieldPos pt ) const
   {
-    return TScreenPos( pt * CellSizePx );
+    return TScreenPos( pt * Editor::GetCellSizePx() );
+  }
+
+  TScreenPos ToScreenCenter( TFieldPos pt ) const
+  {
+    return TScreenPos( pt * Editor::GetCellSizePx() + TFieldPos( Editor::GetCellSizePx(), Editor::GetCellSizePx() ) / 2 );
   }
 
   TFieldPos FromScreen( TScreenPos pt ) const
   {
-    return TFieldPos( pt / CellSizePx );
+    return TFieldPos( pt / static_cast<float>(Editor::GetCellSizePx()) );
   }
 
   const IGameObject::TPtr &Get( int x, int y ) const
@@ -86,14 +91,14 @@ public:
 
   TFieldSize GetSize() const
   {
-    return TFieldSize(FieldSize, FieldSize);
+    return TFieldSize(Editor::FieldSize, Editor::FieldSize);
   }
   
   template<class Fnc>
   friend void ForEach( const GameField &field, Fnc fnc );
 
 private:
-  IGameObject::TPtr m_field[FieldSize][FieldSize]; 
+  IGameObject::TPtr m_field[Editor::FieldSize][Editor::FieldSize]; 
 
   //Separate object list is used for multiple Update call prevention 
   //if object was moved in the m_field on the last call

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "PlayerObj.h"
-#include "Audio/SoundManager.h"
 #include "GameConsts.h"
 
 PlayerObj::PlayerObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex ): 
@@ -38,5 +37,5 @@ void PlayerObj::SetPos( TFieldPos pos )
 
 void PlayerObj::Stop()
 {
-  PlaySound("./_data/fall.wav"); 
+  m_pBody->Effects()->Play( m_field.ToScreenCenter(GetPos()), IEffects::PlayerStoped );  
 }
