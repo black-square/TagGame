@@ -3,7 +3,7 @@
 
 void TrapObj::Render( float deltaTime ) const
 {
-  Draw( *m_pTex, round<Point>(m_field.ToScreen(m_pos)), 0, Color::make_yellow() );
+  Draw( *m_pTex, round<Point>(m_field.ToScreen(m_pos)) );
 }
 //////////////////////////////////////////////////////////////////////////
 

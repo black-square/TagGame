@@ -3,6 +3,7 @@
 
 #include "IBody.h"
 #include "Graphics/Texture.h"
+#include "Core/TimeHelpers.hpp"
 
 class Body: public IBody
 {
@@ -24,7 +25,9 @@ private:
   float m_curTime;
   float m_totalTime;
   Texture::TPtr m_pTex;
-  IEffects::TPtr m_pEff;    
+  IEffects::TPtr m_pEff;
+  SimpleTimer<float> m_animTmr;
+  int m_curFrame; 
 };
 
 

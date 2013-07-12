@@ -5,7 +5,7 @@ namespace Editor //Should be read from an editor
 {
   inline float LogicUpdateTime() { return 0.1f; }  
   inline int   EnemyVisibleDistance() { return 5; }
-  inline int   EnemyShoutDistance() { return 10; }
+  inline int   EnemyShoutDistance() { return 7; }
   inline float PlayerCellMoveTime() { return 0.15f; }
   inline float EnemyCellMoveTime() { return 0.20f; } 
 

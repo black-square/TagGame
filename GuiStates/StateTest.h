@@ -24,6 +24,8 @@ private:
   GameField m_field;
   Texture::TPtr m_pTexGrid;
   Texture::TPtr m_pTexMark;
+  Texture::TPtr m_pTexChar;
+  Texture::TPtr m_pTexEnemy;
   boost::weak_ptr<PlayerObj> m_pPlayer;
   Effects::TPtr m_pEffects;
   mutable Camera m_camera;

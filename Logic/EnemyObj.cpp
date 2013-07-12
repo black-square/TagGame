@@ -39,6 +39,7 @@ void EnemyObj::Update()
 
 void EnemyObj::Render( float deltaTime ) const
 {
+#if 0
   ForEachRadius( m_moveLogic.GetPos(), Editor::EnemyShoutDistance(), [&]( Point cur ) 
   {
     Draw( *m_pTex, round<Point>(m_field.ToScreen(cur)), 0, change_a( Color::make_magenta(), 50) );
@@ -49,7 +50,10 @@ void EnemyObj::Render( float deltaTime ) const
     Draw( *m_pTex, round<Point>(m_field.ToScreen(cur)), 0, change_a( Color::make_magenta(), 25) );
   });
 
+#endif
+
   Draw( *m_pTex, round<Point>(m_field.ToScreen(m_moveLogic.GetPos())), 0, Color::make_white_a(40) );
+
   m_pBody->Render( deltaTime );  
 }
 //////////////////////////////////////////////////////////////////////////
