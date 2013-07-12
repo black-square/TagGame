@@ -2,13 +2,13 @@
 #include "MovementLogic.h"
 #include "GameConsts.h"
 
-void MovementLogic::Update( IGameObject *pThis, GameField &field, TFieldPos &pos )
+void MovementLogic::Update( IGameObject *pThis, GameField &field )
 {
   if( m_fieldMovementTimer.TickWithRestart(Editor::LogicUpdateTime()) )
   {
-    ASSERT( pos != m_dstPos );
+    ASSERT( m_pos != m_dstPos );
 
-    TFieldPos nextPos( pos );
+    TFieldPos nextPos( m_pos );
 
     m_discretePath.Next( nextPos );
 
@@ -24,22 +24,22 @@ void MovementLogic::Update( IGameObject *pThis, GameField &field, TFieldPos &pos
     }
     else
     {
-      field.Move( pos, nextPos );
-      pos = nextPos;
+      field.Move( m_pos, nextPos );
+      m_pos = nextPos;
     }     
   }
 }
 //////////////////////////////////////////////////////////////////////////
 
-void MovementLogic::MoveTo( const GameField &field, TFieldPos pos, TFieldPos dstPos )
+void MovementLogic::MoveTo( const GameField &field, TFieldPos dstPos )
 {
-  ASSERT( field.IsValid(pos) );
+  ASSERT( field.IsValid(m_pos) );
 
-  if( pos == dstPos )
+  if( m_pos == dstPos )
     return;
 
   m_dstPos = dstPos;
-  m_discretePath.Start( pos, dstPos );
+  m_discretePath.Start( m_pos, dstPos );
   
   if( !m_fieldMovementTimer.IsInProgress() ) 
     m_fieldMovementTimer.Start(); 
@@ -48,7 +48,8 @@ void MovementLogic::MoveTo( const GameField &field, TFieldPos pos, TFieldPos dst
 
 void MovementLogic::SetPos( const GameField &field, TFieldPos pos )
 {
-  ASSERT( field.IsValid(pos) ); 
+  ASSERT( field.IsValid(pos) );
+  m_pos = pos; 
   m_dstPos = pos;
   m_fieldMovementTimer.Stop();
 }
@@ -57,4 +58,14 @@ void MovementLogic::SetPos( const GameField &field, TFieldPos pos )
 void MovementLogic::Stop()
 {
   m_fieldMovementTimer.Stop();  
+}
+//////////////////////////////////////////////////////////////////////////
+
+float MovementLogic::GetTotalMoveTime() const
+{
+  ASSERT( IsInProgress() );
+
+  const TFieldPos delta( abs(GetDstPos() - m_pos) );
+
+  return std::max( delta.x, delta.y ) * GetCellMoveTime();
 }

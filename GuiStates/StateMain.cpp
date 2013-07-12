@@ -41,7 +41,7 @@ GuiStateMain::GuiStateMain()
   AddWidget( boost::make_shared<Gui::Button>(
     Rect( Point(252, 300), Size(250, 50) ),
     pBtnFont, pBtnTex,
-    BIND_THIS(StartTestState),
+    [this](){ GetManager()->SetState( boost::make_shared<GuiStateTest>() ); },
     "Test state"
   ));
 
@@ -66,8 +66,4 @@ void GuiStateMain::StartMainGameState()
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateMain::StartTestState()
-{
-  GetManager()->SetState( boost::make_shared<GuiStateTest>() );
-}
 

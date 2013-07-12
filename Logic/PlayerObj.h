@@ -3,8 +3,9 @@
 
 #include "IGameObject.h"
 #include "GameField.h"
-#include "Graphics/Texture.h"
 #include "MovementLogic.h"
+#include "Presentation/IBody.h"
+#include "Graphics/Texture.h"
 
 
 class PlayerObj: public IGameObject
@@ -14,11 +15,11 @@ public:
   typedef GameField::TScreenPos TScreenPos; 
 
 public:
-  PlayerObj( GameField &field, Texture::TPtrParam pTex );
+  PlayerObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrParam pTex );
 
 public:
   Type GetType() const override { return IGameObject::Player; }
-  TFieldPos GetPos() const override { return m_pos; }
+  TFieldPos GetPos() const override { return m_moveLogic.GetPos(); }
   void Update() override;
   void Render( float deltaTime ) const override;
   void SetPos( TFieldPos pos ) override;
@@ -29,9 +30,9 @@ public:
 
 private:
   GameField &m_field;
-  TFieldPos m_pos;
   MovementLogic m_moveLogic;
 
+  IBody::TPtr m_pBody;
   Texture::TPtr m_pTex;
 };
 

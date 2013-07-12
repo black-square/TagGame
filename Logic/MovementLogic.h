@@ -17,15 +17,18 @@ public:
     m_fieldMovementTimer( cellMoveTime )
   {}  
 
-  void Update( IGameObject *pThis, GameField &field, TFieldPos &pos );
-  void MoveTo( const GameField &field, TFieldPos pos, TFieldPos dstPos );
+  void Update( IGameObject *pThis, GameField &field );
+  void MoveTo( const GameField &field, TFieldPos dstPos );
   void SetPos( const GameField &field, TFieldPos pos );
+  TFieldPos GetPos() const { return m_pos; }
   void Stop();
   bool IsInProgress() const { return m_fieldMovementTimer.IsInProgress(); }
-  TFieldPos GetDstPos() const { ASSERT( IsInProgress() ); return m_dstPos; }
-
+  TFieldPos GetDstPos() const { return m_dstPos; }
+  float GetTotalMoveTime() const;
+  float GetCellMoveTime() const { return m_fieldMovementTimer.GetTotalTime(); }
 
 private:
+  TFieldPos m_pos;
   TFieldPos m_dstPos;
   DiscretePath<TFieldPos::TValueType> m_discretePath;
   SimpleTimer<float> m_fieldMovementTimer;

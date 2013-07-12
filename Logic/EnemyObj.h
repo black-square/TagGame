@@ -17,7 +17,7 @@ public:
 
 public:
   Type GetType() const override { return IGameObject::Enemy; }
-  TFieldPos GetPos() const override { return m_pos; }
+  TFieldPos GetPos() const override { return m_moveLogic.GetPos(); }
   void Update() override;
   void Render( float deltaTime ) const override;
   void SetPos( TFieldPos pos ) override;
@@ -32,7 +32,6 @@ public:
 
 private:
   GameField &m_field;
-  TFieldPos m_pos;
   MovementLogic m_moveLogic;
 
   Texture::TPtr m_pTex;

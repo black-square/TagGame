@@ -5,6 +5,7 @@
 #include "Logic/TrapObj.h"
 #include "Logic/EnemyObj.h"
 #include "GameConsts.h"
+#include "Presentation/Body.h"
 
 GuiStateTest::GuiStateTest():
   m_pTexGrid( boost::make_shared<Texture>("./_data/grid.png") ),
@@ -19,7 +20,7 @@ GuiStateTest::GuiStateTest():
 
   const Texture::TPtr pTexPlayer = boost::make_shared<Texture>( "./_data/mark.png" );
 
-  const auto pPlayer = boost::make_shared<PlayerObj>( m_field, pTexPlayer );
+  const auto pPlayer = boost::make_shared<PlayerObj>( m_field, boost::make_shared<Body>(pTexPlayer), m_pTexMark );
   m_pPlayer = pPlayer;
   m_field.Set( Point(3,2), pPlayer ); 
 

@@ -16,12 +16,12 @@ void EnemyObj::Update()
 { 
   const auto pSelfGuard( shared_from_this() );  //Protect from deletion before return
 
-  m_moveLogic.Update( this, m_field, m_pos );
+  m_moveLogic.Update( this, m_field );
   
   const auto pTarget = m_pTarget.lock();
   const auto visDistSquared = Editor::EnemyVisibleDistance() * Editor::EnemyVisibleDistance();
 
-  if( !pTarget || vecLengthSquared(m_pos - pTarget->GetPos()) > visDistSquared )
+  if( !pTarget || vecLengthSquared(m_moveLogic.GetPos() - pTarget->GetPos()) > visDistSquared )
   {
     m_pTarget.reset();
     return;  
@@ -30,38 +30,37 @@ void EnemyObj::Update()
   if( !m_moveLogic.IsInProgress() || m_moveLogic.GetDstPos() != pTarget->GetPos() )
     MoveTo( pTarget->GetPos() ); 
     
-  ForEachRadius( m_field, m_pos, Editor::EnemyShoutDistance(), [this]( IGameObject::TPtrParam pObj ) 
+  ForEachRadius( m_field, m_moveLogic.GetPos(), Editor::EnemyShoutDistance(), [this]( IGameObject::TPtrParam pObj ) 
   { 
-    pObj->PlayerCouldBeAtPos( m_pos );    
+    pObj->PlayerCouldBeAtPos( m_moveLogic.GetDstPos() );    
   }); 
 }
 //////////////////////////////////////////////////////////////////////////
 
 void EnemyObj::Render( float deltaTime ) const
 {
-  ForEachRadius( m_pos, Editor::EnemyShoutDistance(), [&]( Point cur ) 
+  ForEachRadius( m_moveLogic.GetPos(), Editor::EnemyShoutDistance(), [&]( Point cur ) 
   {
     Draw( *m_pTex, round<Point>(m_field.ToScreen(cur)), 0, change_a( Color::make_magenta(), 50) );
   });
 
-  ForEachRadius( m_pos, Editor::EnemyVisibleDistance(), [&]( Point cur ) 
+  ForEachRadius( m_moveLogic.GetPos(), Editor::EnemyVisibleDistance(), [&]( Point cur ) 
   {
     Draw( *m_pTex, round<Point>(m_field.ToScreen(cur)), 0, change_a( Color::make_magenta(), 25) );
   });
 
-  Draw( *m_pTex, Rect( round<Point>(m_field.ToScreen(m_pos)), Size(15, 15)), 0, Color::make_red() );  
+  Draw( *m_pTex, Rect( round<Point>(m_field.ToScreen(m_moveLogic.GetPos())), Size(15, 15)), 0, Color::make_red() );  
 }
 //////////////////////////////////////////////////////////////////////////
 
 void EnemyObj::MoveTo( TFieldPos pos )
 {
-  m_moveLogic.MoveTo(m_field, m_pos, pos );
+  m_moveLogic.MoveTo(m_field, pos );
 }
 //////////////////////////////////////////////////////////////////////////
 
 void EnemyObj::SetPos( TFieldPos pos ) 
 {
-  m_pos = pos; 
   m_moveLogic.SetPos( m_field, pos );
 }
 //////////////////////////////////////////////////////////////////////////
@@ -89,6 +88,6 @@ void EnemyObj::PlayerCouldBeAtPos( TFieldPos pos )
 
 void EnemyObj::Kill()
 {
-  m_field.Set( m_pos );
+  m_field.Set( m_moveLogic.GetPos() );
   PlaySound("./_data/expl.wav");
 }
