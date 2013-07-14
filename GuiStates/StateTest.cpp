@@ -15,23 +15,23 @@ GuiStateTest::GuiStateTest():
   m_lives(3)
 {
   const auto pTexPlayer = boost::make_shared<Texture>( "./_data/mark.png" );
-  const auto pTexMark( boost::make_shared<Texture>("./_data/white.png")  );
+  const auto pTexMark = boost::make_shared<Texture>("./_data/white.png");
   const auto pTexChar = boost::make_shared<Texture>( "./_data/char1.png", 12 );
   const auto pTexEnemy = boost::make_shared<Texture>( "./_data/char2.png", 12 );
  
   m_pEffects = boost::make_shared<Effects>();
 
-  const auto pPlayer = boost::make_shared<PlayerObj>( m_field, boost::make_shared<Body>(pTexChar, m_pEffects), pTexMark, this );
+  const auto pPlayer = m_field.MakeShared<PlayerObj>( m_field, boost::make_shared<Body>(pTexChar, m_pEffects), pTexMark, this );
   m_pPlayer = pPlayer;
   m_field.Set( Point(3,2), pPlayer ); 
 
   for( int x = 0; x < m_field.GetSize().w; x +=4 )
     for( int y = 0; y < m_field.GetSize().h; y +=4 )
-      m_field.Set( Point(x ,y), boost::make_shared<TrapObj>( m_field, pTexPlayer ) );
+      m_field.Set( Point(x ,y), m_field.MakeShared<TrapObj>( m_field, pTexPlayer ) );
 
   for( int x = 0; x < 2; ++x )
     for( int y = 0; y < 4; ++y )
-      m_field.Set( Point(22, 10) + Point(x, y) * 4, boost::make_shared<EnemyObj>( m_field, boost::make_shared<Body>(pTexEnemy, m_pEffects), pTexMark, this ) );     
+      m_field.Set( Point(22, 10) + Point(x, y) * 4, m_field.MakeShared<EnemyObj>( m_field, boost::make_shared<Body>(pTexEnemy, m_pEffects), pTexMark, this ) );     
 
 
   const Font::TPtr pFont = boost::make_shared<Font>( "./_data/gm.ttf", 25);
@@ -98,11 +98,11 @@ void GuiStateTest::OnRenderBelow( float deltaTime ) const
 
 void GuiStateTest::OnUpdate()
 {
-  ForEach( m_field, []( IGameObject *pObj ) 
+  ForEach( m_field, [this]( IGameObject *pObj ) 
   {
     pObj->Update();
+    m_field.DestroyDeleatedObjects();
   }); 
-
 
   const auto pPlayer = m_pPlayer.lock();
 

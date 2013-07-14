@@ -1,10 +1,12 @@
 #ifndef GameField_h__
 #define GameField_h__
 
+#include "DefferedSharedPtrDeleter.hpp"
 #include "IGameObject.h"
 #include "GameConsts.h"
 
-class GameField: boost::noncopyable
+
+class GameField: public DefferedSharedPtrDeleter<IGameObject, GameObjectListTag>
 {
 private:
   typedef TinyList<IGameObject, GameObjectListTag> TAllObjects;
@@ -66,6 +68,7 @@ public:
   {
     ASSERT( pObj );
     ASSERT( !Get(x, y) );
+    ASSERT( CheckPtrDeleter(pObj) );
 
     m_field[x][y] = pObj;
     pObj->SetPos( TFieldPos(x, y) );
@@ -107,6 +110,11 @@ public:
   
   template<class Fnc>
   friend void ForEach( const GameField &field, Fnc fnc );
+
+  void DestroyDeleatedObjects()
+  {
+    DestroyAll();
+  }
 
 private:
   IGameObject::TPtr m_field[Editor::FieldSize][Editor::FieldSize]; 

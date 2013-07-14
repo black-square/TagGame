@@ -13,13 +13,15 @@ GameField::~GameField()
 
 void GameField::Clear()
 {
+  ASSERT( IsDestroyListEmpty() );
   ForEach(GetSize(), [this]( TFieldPos pos )
   {
     if( Get(pos) )
       Set(pos);         
   });
     
-  ASSERT( m_allObjects.empty() ); 
+  ASSERT( m_allObjects.empty() );
+  DestroyDeleatedObjects(); 
 }
 //////////////////////////////////////////////////////////////////////////
 
