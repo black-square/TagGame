@@ -110,7 +110,7 @@ void GuiStateTest::OnUpdate()
   {
     ForEachRadius( m_field, pPlayer->GetPos(), Editor::EnemyVisibleDistance(), [&pPlayer]( IGameObject::TPtrParam pObj ) 
     { 
-      pObj->PlayerVisible( pPlayer.get() );    
+      pObj->PlayerVisible( pPlayer );    
     });
   }
 }

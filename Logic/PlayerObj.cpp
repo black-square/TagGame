@@ -42,21 +42,24 @@ void PlayerObj::Stop()
 }
 //////////////////////////////////////////////////////////////////////////
 
-void PlayerObj::Kill( IGameObject *pKiller )
+void PlayerObj::Kill( IGameObject::TPtrParam pKiller )
 {
   m_pBody->Effects()->Play( m_field.ToScreenCenter(GetPos()), IEffects::PlayerDied );
   m_field.Set( m_moveLogic.GetPos() );  
 }
 //////////////////////////////////////////////////////////////////////////
 
-void PlayerObj::Touch( IGameObject *pWho )
+void PlayerObj::Touch( IGameObject::TPtrParam pWho )
 {
   ASSERT( pWho != 0 );
 
   if( pWho->GetType() == IGameObject::Enemy )
   {
     m_pGameEvents->OnLifeLost(); 
-    pWho->Kill(this);
-    Kill( this );  
+
+    const IGameObject::TPtr pThis( m_field.Get(this) );
+
+    pWho->Kill( pThis );
+    Kill( pThis );  
   }  
 }

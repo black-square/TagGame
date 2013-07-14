@@ -71,14 +71,14 @@ void EnemyObj::SetPos( TFieldPos pos )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void EnemyObj::PlayerVisible( IGameObject *pPlayer )
+void EnemyObj::PlayerVisible( IGameObject::TPtrParam pPlayer )
 {
   ASSERT( pPlayer != 0 );
 
   if( !m_pTarget.expired() )
     return;
 
-  m_pTarget = pPlayer->shared_from_this();
+  m_pTarget = pPlayer;
   MoveTo( pPlayer->GetPos() );
 }
 //////////////////////////////////////////////////////////////////////////
@@ -92,7 +92,7 @@ void EnemyObj::PlayerCouldBeAtPos( TFieldPos pos )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void EnemyObj::Kill( IGameObject *pKiller )
+void EnemyObj::Kill( IGameObject::TPtrParam pKiller )
 {
   ASSERT( pKiller != 0 );
 

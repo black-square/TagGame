@@ -25,8 +25,8 @@ public:
   void Render( float deltaTime ) const override;
   void SetPos( TFieldPos pos ) override;
   void Stop() override;
-  void Kill( IGameObject *pKiller ) override;
-  void Touch( IGameObject *pWho ) override;
+  void Kill( IGameObject::TPtrParam pKiller ) override;
+  void Touch( IGameObject::TPtrParam pWho ) override;
 
 public:
   void MoveTo( TFieldPos pos );

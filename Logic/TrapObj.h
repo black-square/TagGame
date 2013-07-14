@@ -13,7 +13,7 @@ public:
   Type GetType() const override { return Trap; }
   TFieldPos GetPos() const override { return m_pos; }
   void Render( float deltaTime ) const override;
-  void Touch( IGameObject *pWho ) override;
+  void Touch( IGameObject::TPtrParam pWho ) override;
   void SetPos( TFieldPos pos ) override { m_pos = pos; }
 
 private:

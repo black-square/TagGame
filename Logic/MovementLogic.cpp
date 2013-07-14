@@ -10,7 +10,7 @@ bool MovementLogic::CheckNextPos( IGameObject *pThis, const GameField &field )
   {
     m_fieldMovementTimer.Stop();
     m_pBody->MoveTo( field.ToScreen(GetPos()), GetCellMoveTime() );
-    pObj->Touch(pThis);
+    pObj->Touch(field.Get(pThis));
     return false;
   }
 

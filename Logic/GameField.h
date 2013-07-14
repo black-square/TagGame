@@ -45,14 +45,24 @@ public:
     return TFieldPos( pt / static_cast<float>(Editor::GetCellSizePx()) );
   }
 
-  const IGameObject::TPtr &Get( int x, int y ) const
+  IGameObject::TPtrParam Get( int x, int y ) const
   {
     ASSERT( IsValid(x, y) );
     ASSERT( !m_field[x][y] || m_field[x][y]->GetPos() == TFieldPos(x, y) );
     return m_field[x][y];
   }
+
+  IGameObject::TPtrParam Get( const IGameObject *pObj ) const
+  {
+    ASSERT( pObj != 0 );
+
+    IGameObject::TPtrParam pRes( Get(pObj->GetPos()) );
+    ASSERT( pRes.get() == pObj );
+
+    return pRes;
+  } 
   
-  void Set( int x, int y, const IGameObject::TPtr &pObj )
+  void Set( int x, int y, IGameObject::TPtrParam pObj )
   {
     ASSERT( pObj );
     ASSERT( !Get(x, y) );
@@ -75,12 +85,12 @@ public:
     m_field[to.x][to.y] = std::move( m_field[from.x][from.y] );
   }
   
-  const IGameObject::TPtr &Get( TFieldPos pt ) const 
+  IGameObject::TPtrParam Get( TFieldPos pt ) const 
   { 
     return Get( pt.x, pt.y ); 
   }
   
-  void Set( TFieldPos pt, const IGameObject::TPtr &pObj ) 
+  void Set( TFieldPos pt, IGameObject::TPtrParam pObj ) 
   { 
     Set( pt.x, pt.y, pObj ); 
   } 

@@ -7,7 +7,7 @@ void TrapObj::Render( float deltaTime ) const
 }
 //////////////////////////////////////////////////////////////////////////
 
-void TrapObj::Touch( IGameObject *pWho )
+void TrapObj::Touch( IGameObject::TPtrParam pWho )
 {
   ASSERT( pWho != 0 );
 
@@ -18,7 +18,7 @@ void TrapObj::Touch( IGameObject *pWho )
     break;
 
   case Enemy:
-    pWho->Kill(this);
+    pWho->Kill( m_field.Get(this) );
     break;     
   }
 }

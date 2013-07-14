@@ -22,9 +22,9 @@ public:
   void Update() override;
   void Render( float deltaTime ) const override;
   void SetPos( TFieldPos pos ) override;
-  void PlayerVisible( IGameObject *pPlayer ) override;
+  void PlayerVisible( IGameObject::TPtrParam pPlayer ) override;
   void PlayerCouldBeAtPos( TFieldPos pos ) override;
-  void Kill( IGameObject *pKiller ) override;
+  void Kill( IGameObject::TPtrParam pKiller ) override;
 
 public:
   void MoveTo( TFieldPos pos );

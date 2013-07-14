@@ -5,7 +5,7 @@
 
 struct GameObjectListTag{};
 
-struct IGameObject: boost::enable_shared_from_this<IGameObject>, TinyLink<GameObjectListTag>
+struct IGameObject:  TinyLink<GameObjectListTag>
 {
   typedef boost::shared_ptr<IGameObject> TPtr;
   typedef const TPtr &TPtrParam;
@@ -28,10 +28,10 @@ struct IGameObject: boost::enable_shared_from_this<IGameObject>, TinyLink<GameOb
   virtual void Render( float deltaTime ) const {}
   virtual void SetPos( TFieldPos pos ) {}
 
-  virtual void Touch( IGameObject *pWho ) {}
+  virtual void Touch( IGameObject::TPtrParam pWho ) {}
   virtual void Stop() {}
-  virtual void Kill( IGameObject *pKiller ) {}
-  virtual void PlayerVisible( IGameObject *pPlayer ) {}
+  virtual void Kill( IGameObject::TPtrParam pKiller ) {}
+  virtual void PlayerVisible( IGameObject::TPtrParam pPlayer ) {}
   virtual void PlayerCouldBeAtPos( TFieldPos pos ) {}
 
   virtual ~IGameObject() {}
