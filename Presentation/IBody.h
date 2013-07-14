@@ -17,6 +17,8 @@ struct IBody
   virtual TPoint GetPos() const = 0;
   virtual void Stop() {}
   virtual IEffects *Effects() const { static IEffects dummy; return &dummy; }
+  virtual void StartBlinking() {}
+  virtual void StopBlinking() {}
 };
 
 

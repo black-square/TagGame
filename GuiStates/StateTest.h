@@ -23,9 +23,10 @@ private:
   void OnLButtonDown( Point pos ) override;
 
   void OnAddScore( int val ) override;
-  void OnLifeLost() override;
-  void OnWin() override;
-  void OnLose() override;
+  void OnSetLives( int val ) override;
+  void OnEnemyDestroyed() override;
+  void OnWin();
+  void OnLose();
 
 private:
   GameField m_field;
@@ -38,7 +39,7 @@ private:
   Gui::Label::TPtr m_pLivesLbl;
   Gui::Label::TPtr m_pWinLoseLbl;
   int m_score;
-  int m_lives;
+  int m_enemyCount;
 };
 
 #endif // StateTest_h__

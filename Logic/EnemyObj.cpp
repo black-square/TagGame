@@ -99,7 +99,8 @@ void EnemyObj::Kill( IGameObject::TPtrParam pKiller )
   m_pBody->Effects()->Play( m_field.ToScreenCenter(GetPos()), IEffects::EnemyDied );
   
   if( pKiller->GetType() == IGameObject::Trap ) 
-    m_pGameEvents->OnAddScore(100);
+    m_pGameEvents->OnAddScore(Editor::EnemyKillScore());
      
+  m_pGameEvents->OnEnemyDestroyed();
   m_field.Set( m_moveLogic.GetPos() );
 }

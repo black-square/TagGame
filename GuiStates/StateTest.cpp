@@ -12,7 +12,7 @@ GuiStateTest::GuiStateTest():
   m_pTexGrid( boost::make_shared<Texture>("./_data/grid.png") ),
   m_camera( Camera::SizeF(Editor::FieldSizePx()), Camera::SizeF(Editor::VisibleFieldSizePx()) ),
   m_score(0),
-  m_lives(3)
+  m_enemyCount(0)
 {
   const auto pTexPlayer = boost::make_shared<Texture>( "./_data/mark.png" );
   const auto pTexMark = boost::make_shared<Texture>("./_data/white.png");
@@ -20,19 +20,6 @@ GuiStateTest::GuiStateTest():
   const auto pTexEnemy = boost::make_shared<Texture>( "./_data/char2.png", 12 );
  
   m_pEffects = boost::make_shared<Effects>();
-
-  const auto pPlayer = m_field.MakeShared<PlayerObj>( m_field, boost::make_shared<Body>(pTexChar, m_pEffects), pTexMark, this );
-  m_pPlayer = pPlayer;
-  m_field.Set( Point(3,2), pPlayer ); 
-
-  for( int x = 0; x < m_field.GetSize().w; x +=4 )
-    for( int y = 0; y < m_field.GetSize().h; y +=4 )
-      m_field.Set( Point(x ,y), m_field.MakeShared<TrapObj>( m_field, pTexPlayer ) );
-
-  for( int x = 0; x < 2; ++x )
-    for( int y = 0; y < 4; ++y )
-      m_field.Set( Point(22, 10) + Point(x, y) * 4, m_field.MakeShared<EnemyObj>( m_field, boost::make_shared<Body>(pTexEnemy, m_pEffects), pTexMark, this ) );     
-
 
   const Font::TPtr pFont = boost::make_shared<Font>( "./_data/gm.ttf", 25);
 
@@ -49,7 +36,7 @@ GuiStateTest::GuiStateTest():
   m_pLivesLbl = boost::make_shared<Gui::Label>(
     Point( Editor::VisibleFieldSizePx().w - 10, 10 ),
     pFont, 
-    MakeString( FMT("Lives: %d") % m_lives ),
+    "Lives: 0",
     Color::make_yellow(),
     Gui::Label::Right
     );
@@ -65,6 +52,21 @@ GuiStateTest::GuiStateTest():
     );
 
   AddWidget(m_pWinLoseLbl);
+
+  const auto pPlayer = m_field.MakeShared<PlayerObj>( m_field, boost::make_shared<Body>(pTexChar, m_pEffects), pTexMark, this );
+  m_pPlayer = pPlayer;
+  m_field.Set( Point(3,2), pPlayer ); 
+
+  for( int x = 0; x < m_field.GetSize().w; x +=4 )
+    for( int y = 0; y < m_field.GetSize().h; y +=4 )
+      m_field.Set( Point(x ,y), m_field.MakeShared<TrapObj>( m_field, pTexPlayer ) );
+
+  for( int x = 0; x < 2; ++x )
+    for( int y = 0; y < 4; ++y )
+    {
+      m_field.Set( Point(22, 10) + Point(x, y) * 4, m_field.MakeShared<EnemyObj>( m_field, boost::make_shared<Body>(pTexEnemy, m_pEffects), pTexMark, this ) );
+      ++m_enemyCount;
+    }
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -133,10 +135,19 @@ void GuiStateTest::OnAddScore( int val )
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateTest::OnLifeLost()
+void GuiStateTest::OnSetLives( int val )
 {
-  --m_lives;
-  m_pLivesLbl->SetText( MakeString( FMT("Lives: %d") % m_lives ), Color::make_yellow() );
+  m_pLivesLbl->SetText( MakeString( FMT("Lives: %d") % val ), Color::make_yellow() );
+
+  if( val == 0 )
+    OnLose();
+}
+//////////////////////////////////////////////////////////////////////////
+
+void GuiStateTest::OnEnemyDestroyed()
+{
+  if( --m_enemyCount <= 0 )
+    OnWin();  
 }
 //////////////////////////////////////////////////////////////////////////
 

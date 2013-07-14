@@ -17,6 +17,8 @@ public:
   void Stop() override;
   IEffects *Effects() const override { return &*m_pEff; }
   TPoint GetPos() const override { return m_pos; }
+  void StartBlinking() override;
+  void StopBlinking() override;
 
 private:
   TPoint m_pos;
@@ -27,7 +29,8 @@ private:
   Texture::TPtr m_pTex;
   IEffects::TPtr m_pEff;
   SimpleTimer<float> m_animTmr;
-  int m_curFrame; 
+  int m_curFrame;
+  TimeInterval::Processor<int, TimeInterval::Continuous> m_blinkValue; 
 };
 
 

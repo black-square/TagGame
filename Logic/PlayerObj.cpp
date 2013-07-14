@@ -7,13 +7,17 @@ PlayerObj::PlayerObj( GameField &field, IBody::TPtrParam pBody, Texture::TPtrPar
   m_moveLogic( Editor::PlayerCellMoveTime(), pBody.get() ),
   m_pBody(pBody),
   m_pTex(pTex),
-  m_pGameEvents(pGameEvents)
+  m_pGameEvents(pGameEvents),
+  m_lives( Editor::LivesCount() ),
+  m_invulnerabilityTimer( Editor::InvulnerabilityTime() )
 {}
 //////////////////////////////////////////////////////////////////////////
 
 void PlayerObj::Update()
 {
   m_moveLogic.Update( this, m_field );
+  if( m_invulnerabilityTimer.Tick( Editor::LogicUpdateTime() ) )
+    m_pBody->StopBlinking();
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -33,6 +37,7 @@ void PlayerObj::MoveTo( TFieldPos pos )
 void PlayerObj::SetPos( TFieldPos pos ) 
 {
   m_moveLogic.SetPos( m_field, pos );
+  m_pGameEvents->OnSetLives( m_lives );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -53,13 +58,21 @@ void PlayerObj::Touch( IGameObject::TPtrParam pWho )
 {
   ASSERT( pWho != 0 );
 
-  if( pWho->GetType() == IGameObject::Enemy )
+  if( pWho->GetType() == IGameObject::Enemy && !m_invulnerabilityTimer.IsInProgress() )
   {
-    m_pGameEvents->OnLifeLost(); 
+    --m_lives;
+    m_pGameEvents->OnSetLives(m_lives); 
 
     const IGameObject::TPtr pThis( m_field.Get(this) );
 
     pWho->Kill( pThis );
-    Kill( pThis );  
+    
+    if( m_lives <= 0 )
+      Kill( pThis );
+    else
+    {
+      m_invulnerabilityTimer.Start();
+      m_pBody->StartBlinking();
+    }  
   }  
 }

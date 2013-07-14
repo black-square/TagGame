@@ -17,6 +17,14 @@ namespace Editor //Should be read from an editor
   inline Size FieldSizePx(){ return Size(FieldSize, FieldSize) * GetCellSizePx(); }
   inline Size VisibleFieldSize(){ return Size(32, 18); }
   inline Size VisibleFieldSizePx(){ return VisibleFieldSize() * GetCellSizePx(); }
+
+  inline int AnimFramesCount() { return 3; }
+  inline float AnimSpeed() { return 0.2f; }
+  inline float BlinkSpeed() { return 0.1f; } 
+
+  inline int LivesCount() { return 3; }
+  inline int EnemyKillScore() { return 100; } 
+  inline float InvulnerabilityTime() { return 3.0f; }
 }
 
 

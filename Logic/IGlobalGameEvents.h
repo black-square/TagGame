@@ -6,9 +6,8 @@ struct IGlobalGameEvents
   virtual ~IGlobalGameEvents() {}
 
   virtual void OnAddScore( int val ) {};
-  virtual void OnLifeLost() {};
-  virtual void OnWin() {};
-  virtual void OnLose() {};
+  virtual void OnSetLives( int val ) {};
+  virtual void OnEnemyDestroyed() {};
 };
 
 

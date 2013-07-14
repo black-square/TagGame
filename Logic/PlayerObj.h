@@ -39,6 +39,8 @@ private:
   IBody::TPtr m_pBody;
   Texture::TPtr m_pTex;
   IGlobalGameEvents *m_pGameEvents;
+  int m_lives;
+  SimpleTimer<float> m_invulnerabilityTimer;
 };
 
 #endif // PlayerObj_h__
