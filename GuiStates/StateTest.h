@@ -1,13 +1,13 @@
 #ifndef StateTest_h__
 #define StateTest_h__
 
-#include "Gui/State.h"
+#include "Engine/Gui/State.h"
 #include "Logic/PlayerObj.h"
-#include "Particles/ParticlesManager.h"
+#include "Engine/Particles/ParticlesManager.h"
 #include "Presentation/Effects.h"
-#include "Graphics/Camera.h"
+#include "Engine/Graphics/Camera.h"
 #include "Logic/IGlobalGameEvents.h"
-#include "Gui/Widgets.h"
+#include "Engine/Gui/Widgets.h"
 
 class GuiStateTest: public Gui::State, public IGlobalGameEvents
 {   

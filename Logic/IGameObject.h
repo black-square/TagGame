@@ -1,7 +1,7 @@
 #ifndef IGameObject_h__
 #define IGameObject_h__
 
-#include "Core/TinyList.hpp"
+#include "Engine/Core/TinyList.hpp"
 
 struct GameObjectListTag{};
 

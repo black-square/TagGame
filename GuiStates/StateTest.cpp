@@ -1,12 +1,11 @@
 #include "stdafx.h"
 #include "StateTest.h"
-#include "Graphics/Texture.h"
-#include "Gui/Widgets.h"
+#include "Engine/Graphics/Texture.h"
+#include "Engine/Gui/Widgets.h"
 #include "Logic/TrapObj.h"
 #include "Logic/EnemyObj.h"
 #include "GameConsts.h"
 #include "Presentation/Body.h"
-#include "Core/Rect.hpp"
 
 GuiStateTest::GuiStateTest():
   m_pTexGrid( boost::make_shared<Texture>("./_data/grid.png") ),

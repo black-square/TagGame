@@ -2,8 +2,8 @@
 #define Body_h__
 
 #include "IBody.h"
-#include "Graphics/Texture.h"
-#include "Core/TimeHelpers.hpp"
+#include "Engine/Graphics/Texture.h"
+#include "Engine/Core/TimeHelpers.hpp"
 
 class Body: public IBody
 {

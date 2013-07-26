@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Body.h"
-#include "Core/Interp.hpp"
+#include "Engine/Core/Interp.hpp"
 #include "GameConsts.h"
 
 Body::Body( Texture::TPtrParam pTex, IEffects::TPtrParam pEff ):

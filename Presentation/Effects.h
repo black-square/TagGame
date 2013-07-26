@@ -2,8 +2,8 @@
 #define Effects_h__
 
 #include "IEffects.h"
-#include "Particles/ParticlesManager.h"
-#include "Graphics/Texture.h"
+#include "Engine/Particles/ParticlesManager.h"
+#include "Engine/Graphics/Texture.h"
 
 class Effects: public IEffects
 {

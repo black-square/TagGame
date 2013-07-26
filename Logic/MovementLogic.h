@@ -3,8 +3,8 @@
 
 #include "IGameObject.h"
 #include "GameField.h"
-#include "Core/TimeHelpers.hpp"
-#include "Core/DiscretePath.hpp"
+#include "Engine/Core/TimeHelpers.hpp"
+#include "Engine/Core/DiscretePath.hpp"
 #include "Presentation/IBody.h"
 
 class MovementLogic

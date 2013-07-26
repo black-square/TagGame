@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Effects.h"
-#include "Audio/SoundManager.h"
+#include "Engine/Audio/SoundManager.h"
 
 
 Effects::Effects()

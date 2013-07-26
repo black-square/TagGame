@@ -1,0 +1,10 @@
+/Debug
+/ipch
+/*.sdf
+/*.suo
+/Release
+/*.aps
+/*.opensdf
+.DS_Store
+/*.xcodeproj/xcuserdata
+/*.xcodeproj/project.xcworkspace

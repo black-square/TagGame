@@ -3,7 +3,7 @@
 
 #include "IGameObject.h"
 #include "GameField.h"
-#include "Graphics/Texture.h"
+#include "Engine/Graphics/Texture.h"
 #include "MovementLogic.h"
 #include "IGlobalGameEvents.h"
 

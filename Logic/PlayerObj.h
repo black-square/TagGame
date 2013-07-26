@@ -5,7 +5,7 @@
 #include "GameField.h"
 #include "MovementLogic.h"
 #include "Presentation/IBody.h"
-#include "Graphics/Texture.h"
+#include "Engine/Graphics/Texture.h"
 #include "IGlobalGameEvents.h"
 
 

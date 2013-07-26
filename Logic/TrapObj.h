@@ -2,7 +2,7 @@
 #define TrapObj_h__
 
 #include "IGameObject.h"
-#include "Graphics/Texture.h"
+#include "Engine/Graphics/Texture.h"
 #include "GameField.h"
 
 class TrapObj: public IGameObject
