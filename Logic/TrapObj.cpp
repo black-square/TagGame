@@ -19,6 +19,9 @@ void TrapObj::Touch( IGameObject::TPtrParam pWho )
 
   case Enemy:
     pWho->Kill( m_field.Get(this) );
-    break;     
+    break;
+      
+  default:
+    break;
   }
 }
