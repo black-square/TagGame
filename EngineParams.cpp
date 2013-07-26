@@ -10,7 +10,7 @@ struct EngineParamsImpl: IEngineParams
     return Editor::VisibleFieldSizePx();  
   }
 
-  float GetUpdateTimeDelta() const override
+  float GetUpdateStepTimeDelta() const override
   {
     return Editor::LogicUpdateTime();
   }

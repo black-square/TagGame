@@ -19,7 +19,7 @@ public:
 
 private:
   void OnRenderBelow( float deltaTime ) const override;
-  void OnUpdate() override;
+  void OnUpdateStep() override;
   void OnLButtonDown( Point pos ) override;
 
   void OnAddScore( int val ) override;

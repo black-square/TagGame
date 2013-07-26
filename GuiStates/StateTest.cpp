@@ -97,7 +97,7 @@ void GuiStateTest::OnRenderBelow( float deltaTime ) const
 }
 //////////////////////////////////////////////////////////////////////////
 
-void GuiStateTest::OnUpdate()
+void GuiStateTest::OnUpdateStep()
 {
   ForEach( m_field, [this]( IGameObject *pObj ) 
   {
