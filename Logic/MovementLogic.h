@@ -4,7 +4,7 @@
 #include "IGameObject.h"
 #include "GameField.h"
 #include "Engine/Core/TimeHelpers.hpp"
-#include "Engine/Core/DiscretePath.hpp"
+#include "Engine/Logic/DiscretePath.hpp"
 #include "Presentation/IBody.h"
 
 class MovementLogic

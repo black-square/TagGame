@@ -5,8 +5,9 @@
 
 struct GameObjectListTag{};
 
-struct IGameObject:  TinyLink<GameObjectListTag>
+struct IGameObject: TinyLink<GameObjectListTag>
 {
+  typedef GameObjectListTag TGameObjectListTag;
   typedef boost::shared_ptr<IGameObject> TPtr;
   typedef const TPtr &TPtrParam;
   typedef boost::weak_ptr<IGameObject> TWeakPtr;

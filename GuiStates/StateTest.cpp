@@ -99,7 +99,7 @@ void GuiStateTest::OnRenderBelow( float deltaTime ) const
 
 void GuiStateTest::OnUpdateStep()
 {
-  ForEach( m_field, [this]( IGameObject *pObj ) 
+  ForEachSafeDelete( m_field, [this]( IGameObject *pObj ) 
   {
     pObj->Update();
     m_field.DestroyDeleatedObjects();

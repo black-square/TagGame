@@ -93,10 +93,9 @@
     <ClInclude Include="Engine\Audio\SoundCache.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Core\CommonMacros.h" />
-    <ClInclude Include="Engine\Core\DefferedSharedPtrDeleter.hpp" />
-    <ClInclude Include="Engine\Core\DiscretePath.hpp" />
     <ClInclude Include="Engine\Core\Interp.hpp" />
     <ClInclude Include="Engine\Core\Log.h" />
+    <ClInclude Include="Engine\Core\Matrix.hpp" />
     <ClInclude Include="Engine\Core\Point.hpp" />
     <ClInclude Include="Engine\Core\Rect.hpp" />
     <ClInclude Include="Engine\Core\Size.hpp" />
@@ -111,6 +110,9 @@
     <ClInclude Include="Engine\Gui\State.h" />
     <ClInclude Include="Engine\Gui\Widgets.h" />
     <ClInclude Include="Engine\IEngineParams.h" />
+    <ClInclude Include="Engine\Logic\DefferedSharedPtrDeleter.hpp" />
+    <ClInclude Include="Engine\Logic\DiscretePath.hpp" />
+    <ClInclude Include="Engine\Logic\GameFieldBase.hpp" />
     <ClInclude Include="Engine\Main.h" />
     <ClInclude Include="Engine\Particles\Particle.h" />
     <ClInclude Include="Engine\Particles\ParticlesManager.h" />
