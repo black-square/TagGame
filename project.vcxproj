@@ -110,6 +110,7 @@
     <ClInclude Include="Engine\Graphics\Texture.h" />
     <ClInclude Include="Engine\Gui\State.h" />
     <ClInclude Include="Engine\Gui\Widgets.h" />
+    <ClInclude Include="Engine\IEngineParams.h" />
     <ClInclude Include="Engine\Main.h" />
     <ClInclude Include="Engine\Particles\Particle.h" />
     <ClInclude Include="Engine\Particles\ParticlesManager.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EngineParams.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundCache.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />

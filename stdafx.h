@@ -35,6 +35,7 @@
 
 
 #include "Engine/Core/Point.hpp"
+#include "Engine/Core/Size.hpp"
 #include "Engine/Core/Rect.hpp"
 
 
