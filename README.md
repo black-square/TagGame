@@ -1,6 +1,7 @@
-# GemsGame
+# TagGame
 
-Board game where you need to match three of the same color gems in a row.
+RPG-like game where you need to decoy enemies to the traps but at the same time 
+you need to avoid that they touch hero.
 
 [mango2d engine demo](https://github.com/black-square/mango2d)
 
@@ -19,9 +20,9 @@ Board game where you need to match three of the same color gems in a row.
 -	Smooth camera animation: Physically reliable spring formula
 -	Intensive smart-pointers usage
 -	Careful OOP design
--	Efficient and robust [solution](Engine/Logic/GameFieldBase.hpp) for Destroy During the Update problem. Special 
-  [shared_ptr deleter](Engine/Logic/DefferedSharedPtrDeleter.hpp) which keeps object destruction until `Update()` 
-  method finishes, but weak pointers become expired immediately.
+-	Efficient and robust [solution](https://github.com/black-square/mango2d/blob/master/Logic/GameFieldBase.hpp) 
+  for Destroy During the Update problem. Special [shared_ptr deleter](https://github.com/black-square/mango2d/blob/master/Logic/DefferedSharedPtrDeleter.hpp) 
+  which keeps object destruction until `Update()` method finishes, but weak pointers become expired immediately.
  
 ![GemsGame screenshot](https://raw.github.com/wiki/black-square/mango2d/img/TagGame.png)
 
