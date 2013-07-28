@@ -3,7 +3,7 @@
 
 void TrapObj::Render( float deltaTime ) const
 {
-  Draw( *m_pTex, round<Point>(m_field.ToScreen(m_pos)) );
+  m_pBody->Render( deltaTime );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -24,4 +24,11 @@ void TrapObj::Touch( IGameObject::TPtrParam pWho )
   default:
     break;
   }
+}
+//////////////////////////////////////////////////////////////////////////
+
+void TrapObj::SetPos( TFieldPos pos ) 
+{ 
+  m_pos = pos;
+  m_pBody->SetPos( m_field.ToScreen(m_pos) );
 }

@@ -4,22 +4,23 @@
 #include "IGameObject.h"
 #include "Engine/Graphics/Texture.h"
 #include "GameField.h"
+#include "Presentation/IBody.h"
 
 class TrapObj: public IGameObject
 {
 public:
-  explicit TrapObj( const GameField &field, Texture::TPtrParam pTex ): m_field(field), m_pTex(pTex) {}
+  explicit TrapObj( const GameField &field, IBody::TPtrParam pBody ): m_field(field), m_pBody(pBody) {}
 
   Type GetType() const override { return Trap; }
   TFieldPos GetPos() const override { return m_pos; }
   void Render( float deltaTime ) const override;
   void Touch( IGameObject::TPtrParam pWho ) override;
-  void SetPos( TFieldPos pos ) override { m_pos = pos; }
+  void SetPos( TFieldPos pos ) override;
 
 private:
   const GameField &m_field;
   TFieldPos m_pos;
-  Texture::TPtr m_pTex;
+  IBody::TPtr m_pBody;
 };
 
 #endif // TrapObj_h__

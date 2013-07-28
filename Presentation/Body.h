@@ -32,6 +32,24 @@ private:
   int m_curFrame;
   TimeInterval::Processor<int, TimeInterval::Continuous> m_blinkValue; 
 };
+//////////////////////////////////////////////////////////////////////////
+
+class StaticBody: public IBody
+{
+public:
+  explicit StaticBody( Texture::TPtrParam pTex );
+
+public:
+  void Render( float deltaTime ) override;
+  void SetPos( TPoint dst ) override { m_pos = dst; } 
+  TPoint GetPos() const override { return m_pos; }
+
+private:
+  TPoint m_pos;
+  Texture::TPtr m_pTex;
+  SimpleTimer<float> m_animTmr;
+  int m_curFrame;
+};
 
 
 #endif // Body_h__

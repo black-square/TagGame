@@ -9,6 +9,15 @@ struct IBody
   typedef boost::shared_ptr<IBody> TPtr;
   typedef const TPtr &TPtrParam;
   typedef PointBase<float> TPoint;
+
+  enum Direction
+  {
+    Up,
+    Left,
+    Right,
+    Down,
+    TotalDir
+  };
   
   virtual ~IBody() {}
   virtual void Render( float deltaTime ) {}

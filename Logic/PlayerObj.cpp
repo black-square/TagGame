@@ -23,7 +23,7 @@ void PlayerObj::Update()
 
 void PlayerObj::Render( float deltaTime ) const
 {
-  Draw( *m_pTex, round<Point>(m_field.ToScreen(m_moveLogic.GetPos())), 0, Color::make_white_a(40) );
+  Draw( *m_pTex, round<Point>(m_field.ToScreen(m_moveLogic.GetPos())), 0, Color::make_white_a(20) );
   m_pBody->Render( deltaTime );   
 }
 //////////////////////////////////////////////////////////////////////////

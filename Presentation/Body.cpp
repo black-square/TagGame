@@ -3,6 +3,29 @@
 #include "Engine/Core/Interp.hpp"
 #include "GameConsts.h"
 
+namespace
+{
+IBody::Direction CalcDirection( IBody::TPoint curPos, IBody::TPoint dstPos )
+{
+  const IBody::TPoint delta    =  dstPos - curPos;
+  const IBody::TPoint absDelta = abs(delta);
+
+  if( absDelta.x > absDelta.y )
+    return delta.x > 0 ? IBody::Right : IBody::Left;
+  else
+    return delta.y > 0 ? IBody::Up : IBody::Down;
+}
+//////////////////////////////////////////////////////////////////////////
+
+Point CalcTexPos( IBody::TPoint curPos, Size texSize, int vertDiff = 0 )
+{
+  return round<Point>(curPos) + 
+    Point(Editor::GetCellSizePx() / 2, Editor::GetCellSizePx() + vertDiff ) -
+    Point( texSize.w / 2, texSize.h );
+}
+}
+//////////////////////////////////////////////////////////////////////////
+
 Body::Body( Texture::TPtrParam pTex, IEffects::TPtrParam pEff ):
   m_curTime(0),
   m_totalTime(0),
@@ -26,40 +49,24 @@ void Body::Render( float deltaTime )
     m_pos = Lerp( m_fromPos, m_dstPos, m_curTime / m_totalTime );
   }
 
-  if( m_animTmr.TickWithRestartNonStop(deltaTime) && m_curTime < m_totalTime )
-    if( ++m_curFrame >= Editor::AnimFramesCount() )
-      m_curFrame = 0;  
-
-  enum Direction
-  {
-    Up,
-    Left,
-    Right,
-    Down,
-    TotalDir
-  };
-
   Direction curDir = Up;
 
-  if( m_curTime < m_totalTime )
+  if( m_curTime < m_totalTime ) 
   {
-    const TPoint delta    =  m_dstPos - m_pos;
-    const TPoint absDelta = abs(delta);
+    if( m_animTmr.TickWithRestartNonStop(deltaTime) )
+      if( ++m_curFrame >= Editor::AnimFramesCount() )
+        m_curFrame = 0;  
 
-    if( absDelta.x > absDelta.y )
-      curDir = delta.x > 0 ? Right : Left;
-    else
-      curDir = delta.y > 0 ? Up : Down;
+    curDir = CalcDirection( m_pos, m_dstPos );
   }
-  
-  const Point pos = 
-    round<Point>(m_pos) + 
-    Point(Editor::GetCellSizePx() / 2, Editor::GetCellSizePx() - 2 ) -
-    Point( m_pTex->GetSize().w / 2, m_pTex->GetSize().h );
 
   m_blinkValue.Tick( deltaTime );
 
-  Draw( *m_pTex, pos, m_curFrame * TotalDir + curDir, Color::make_white_a(Color::max() - m_blinkValue.Get()) );
+  Draw( *m_pTex, 
+    CalcTexPos( m_pos, m_pTex->GetSize(), -2 ), 
+    m_curFrame * TotalDir + curDir, 
+    Color::make_white_a(Color::max() - m_blinkValue.Get()) 
+  );
 }
 //////////////////////////////////////////////////////////////////////////
 
@@ -101,4 +108,26 @@ void Body::StartBlinking()
 void Body::StopBlinking()
 {
   m_blinkValue.InitFixed(Color::min() );
+}
+//////////////////////////////////////////////////////////////////////////
+
+StaticBody::StaticBody( Texture::TPtrParam pTex ):
+  m_pTex(pTex),
+  m_animTmr(Editor::AnimSpeedStatic()),
+  m_curFrame( std::rand() % Editor::AnimFramesCountStatic() )
+{
+  m_animTmr.Start();
+}
+//////////////////////////////////////////////////////////////////////////
+
+void StaticBody::Render( float deltaTime )
+{
+  if( m_animTmr.TickWithRestartNonStop(deltaTime) )
+    if( ++m_curFrame >= Editor::AnimFramesCountStatic() )
+      m_curFrame = 0;  
+
+  Draw( *m_pTex, 
+    CalcTexPos( m_pos, m_pTex->GetSize(), 2 ), 
+    m_curFrame 
+  );
 }

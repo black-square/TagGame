@@ -13,10 +13,10 @@ GuiStateTest::GuiStateTest():
   m_score(0),
   m_enemyCount(0)
 {
-  const auto pTexPlayer = boost::make_shared<Texture>( "./_data/mark.png" );
   const auto pTexMark = boost::make_shared<Texture>("./_data/white.png");
-  const auto pTexChar = boost::make_shared<Texture>( "./_data/char1.png", 12 );
-  const auto pTexEnemy = boost::make_shared<Texture>( "./_data/char2.png", 12 );
+  const auto pTexChar = boost::make_shared<Texture>( "./_data/char1.png", Editor::AnimFramesCount() * Body::TotalDir );
+  const auto pTexEnemy = boost::make_shared<Texture>( "./_data/char2.png", Editor::AnimFramesCount() * Body::TotalDir );
+  const auto pTexTrap = boost::make_shared<Texture>( "./_data/campfire.png", Editor::AnimFramesCountStatic() );
  
   m_pEffects = boost::make_shared<Effects>();
 
@@ -54,16 +54,16 @@ GuiStateTest::GuiStateTest():
 
   const auto pPlayer = m_field.MakeShared<PlayerObj>( m_field, boost::make_shared<Body>(pTexChar, m_pEffects), pTexMark, this );
   m_pPlayer = pPlayer;
-  m_field.Set( Point(3,2), pPlayer ); 
+  m_field.Set( Point(6,6), pPlayer ); 
 
   for( int x = 0; x < m_field.GetSize().w; x +=4 )
     for( int y = 0; y < m_field.GetSize().h; y +=4 )
-      m_field.Set( Point(x ,y), m_field.MakeShared<TrapObj>( m_field, pTexPlayer ) );
+      m_field.Set( Point(x ,y), m_field.MakeShared<TrapObj>( m_field, boost::make_shared<StaticBody>(pTexTrap) ) );
 
-  for( int x = 0; x < 2; ++x )
-    for( int y = 0; y < 4; ++y )
+  for( int x = 0; x < 10; ++x )
+    for( int y = 0; y < 10; ++y )
     {
-      m_field.Set( Point(22, 10) + Point(x, y) * 4, m_field.MakeShared<EnemyObj>( m_field, boost::make_shared<Body>(pTexEnemy, m_pEffects), pTexMark, this ) );
+      m_field.Set( Point(10, 10) + Point(x, y) * 4, m_field.MakeShared<EnemyObj>( m_field, boost::make_shared<Body>(pTexEnemy, m_pEffects), pTexMark, this ) );
       ++m_enemyCount;
     }
 }
