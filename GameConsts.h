@@ -25,7 +25,7 @@ namespace Editor //Should be read from an editor
   inline float AnimSpeedStatic() { return 0.14f; }
   inline float BlinkSpeed() { return 0.1f; } 
 
-  inline int LivesCount() { return 3; }
+  inline int LivesCount() { return 5; }
   inline int EnemyKillScore() { return 100; } 
   inline float InvulnerabilityTime() { return 3.0f; }
 }
