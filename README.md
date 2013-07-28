@@ -1,13 +1,14 @@
 # TagGame
 
-RPG-like game where you need to decoy enemies to the traps but at the same time 
-you need to avoid that they touch hero.
+Grid-based game where you need to decoy enemies to the traps but at the same time you need to avoid 
+situation when they touch hero.
 
 [mango2d engine demo](https://github.com/black-square/mango2d)
 
 **[Download binaries for Mac and Windows](https://github.com/black-square/TagGame/releases)**
 
 ## Features
+- Multiplatform code: Mac OS and Windows
 - Animations, sounds, particles, fonts, gui widgets and gui states
 - Each game object has its own logic and interacts with others units units only through abstract interface
 -	Distinguish between game logic (10 fps, grid based) and presentation (max fps) code. Deterministic 
