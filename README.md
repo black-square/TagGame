@@ -1,7 +1,7 @@
 # TagGame
 
 Grid-based game where you need to decoy enemies to the traps but at the same time you need to avoid 
-situation when they touch hero.
+situation when they touch the hero.
 
 [mango2d engine demo](https://github.com/black-square/mango2d)
 
@@ -10,16 +10,16 @@ situation when they touch hero.
 ## Features
 - Multiplatform code: Mac OS and Windows
 - Animations, sounds, particles, fonts, gui widgets and gui states
-- Each game object has its own logic and interacts with others units units only through abstract interface
+- Each game object has its own logic and interacts with others only through abstract interface
 -	Distinguish between game logic (10 fps, grid based) and presentation (max fps) code. Deterministic 
   logic is very useful when it comes to synchronizing it by the network
 -	Unit movement looks as if there is no logic grid under the hood. At the presentation level, unit moves 
   along any straight lines, but at the logic level unit can move only in eight directions. Straight lines 
-  approximate to the discrete grid by Bresenham’s algorithm. The logic unit position is marked under 
-  the unit by the gray square
+  approximate to the discrete grid by Bresenham’s algorithm. The unit's logic position is marked by the gray square under 
+  the unit 
 -	Enemies have some kind of group behaviour: Each enemy unit reports about player position to the close units. 
-  This approach makes unit behaviour more interesting
--	Smooth camera animation: Physically reliable spring formula
+  This approach makes enemies' behaviour more interesting
+-	Smooth camera animation: physically reliable spring formula
 -	Intensive smart-pointers usage
 -	Efficient and robust [solution](https://github.com/black-square/mango2d/blob/master/Logic/GameFieldBase.hpp) 
   for Destroy During the Update problem. Special [shared_ptr deleter](https://github.com/black-square/mango2d/blob/master/Logic/DefferedSharedPtrDeleter.hpp) 
