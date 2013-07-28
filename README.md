@@ -14,7 +14,7 @@ situation when they touch hero.
 -	Distinguish between game logic (10 fps, grid based) and presentation (max fps) code. Deterministic 
   logic is very useful when it comes to synchronizing it by the network
 -	Unit movement looks as if there is no logic grid under the hood. At the presentation level, unit moves 
-  only along straight lines, but at the logic level unit can move only in eight directions. Straight lines 
+  along any straight lines, but at the logic level unit can move only in eight directions. Straight lines 
   approximate to the discrete grid by Bresenham’s algorithm. The logic unit position is marked under 
   the unit by the gray square
 -	Enemies have some kind of group behaviour: Each enemy unit reports about player position to the close units. 
