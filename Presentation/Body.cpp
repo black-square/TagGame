@@ -101,7 +101,7 @@ void Body::Stop()
 
 void Body::StartBlinking()
 {
-  m_blinkValue.InitStepTime( Color::min(), 150, 0.002f );
+  m_blinkValue.InitStepTime( Color::min(), 200, 0.001f );
 }
 //////////////////////////////////////////////////////////////////////////
 

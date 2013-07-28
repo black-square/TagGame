@@ -17,16 +17,16 @@ GuiStateMain::GuiStateMain()
 
   AddWidget( boost::make_shared<Gui::Label>(
     Point(Editor::VisibleFieldSizePx().w / 2, 10),
-    boost::make_shared<Font>( "./_data/gm.ttf", 50), 
+    boost::make_shared<Font>( "./_data/gm.ttf", 60), 
     "Tag Game",
     Color::make_white(),
     Gui::Label::Center
   ));
 
   AddWidget( boost::make_shared<Gui::Label>(
-    Point(Editor::VisibleFieldSizePx().w / 2, Editor::VisibleFieldSizePx().h - 30 ),
+    Point(Editor::VisibleFieldSizePx().w / 2, Editor::VisibleFieldSizePx().h - 35 ),
     boost::make_shared<Font>( "./_data/gm.ttf", 30), 
-    "Dmitry Shesterkin   dfb@yandex.ru",
+    "mango2d engine demo",
     Color::make_white(),
     Gui::Label::Center
   ));
